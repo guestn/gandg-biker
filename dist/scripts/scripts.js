@@ -858,7 +858,7 @@ loadTextureCube:function(a,b,c,d){console.warn("THREE.ImageUtils.loadTextureCube
 l.Projector=function(){console.error("THREE.Projector has been moved to /examples/js/renderers/Projector.js.");this.projectVector=function(a,b){console.warn("THREE.Projector: .projectVector() is now vector.project().");a.project(b)};this.unprojectVector=function(a,b){console.warn("THREE.Projector: .unprojectVector() is now vector.unproject().");a.unproject(b)};this.pickingRay=function(){console.error("THREE.Projector: .pickingRay() is now raycaster.setFromCamera().")}};l.CanvasRenderer=function(){console.error("THREE.CanvasRenderer has been moved to /examples/js/renderers/CanvasRenderer.js");
 this.domElement=document.createElementNS("http://www.w3.org/1999/xhtml","canvas");this.clear=function(){};this.render=function(){};this.setClearColor=function(){};this.setSize=function(){}};Object.defineProperty(l,"__esModule",{value:!0})});
 
-THREE.OBJLoader=function(a){this.manager=void 0!==a?a:THREE.DefaultLoadingManager,this.materials=null,this.regexp={vertex_pattern:/^v\s+([\d|\.|\+|\-|e|E]+)\s+([\d|\.|\+|\-|e|E]+)\s+([\d|\.|\+|\-|e|E]+)/,normal_pattern:/^vn\s+([\d|\.|\+|\-|e|E]+)\s+([\d|\.|\+|\-|e|E]+)\s+([\d|\.|\+|\-|e|E]+)/,uv_pattern:/^vt\s+([\d|\.|\+|\-|e|E]+)\s+([\d|\.|\+|\-|e|E]+)/,face_vertex:/^f\s+(-?\d+)\s+(-?\d+)\s+(-?\d+)(?:\s+(-?\d+))?/,face_vertex_uv:/^f\s+(-?\d+)\/(-?\d+)\s+(-?\d+)\/(-?\d+)\s+(-?\d+)\/(-?\d+)(?:\s+(-?\d+)\/(-?\d+))?/,face_vertex_uv_normal:/^f\s+(-?\d+)\/(-?\d+)\/(-?\d+)\s+(-?\d+)\/(-?\d+)\/(-?\d+)\s+(-?\d+)\/(-?\d+)\/(-?\d+)(?:\s+(-?\d+)\/(-?\d+)\/(-?\d+))?/,face_vertex_normal:/^f\s+(-?\d+)\/\/(-?\d+)\s+(-?\d+)\/\/(-?\d+)\s+(-?\d+)\/\/(-?\d+)(?:\s+(-?\d+)\/\/(-?\d+))?/,object_pattern:/^[og]\s*(.+)?/,smoothing_pattern:/^s\s+(\d+|on|off)/,material_library_pattern:/^mtllib /,material_use_pattern:/^usemtl /}},THREE.OBJLoader.prototype={constructor:THREE.OBJLoader,load:function(a,b,c,d){var e=this,f=new THREE.XHRLoader(e.manager);f.setPath(this.path),f.load(a,function(a){b(e.parse(a))},c,d)},setPath:function(a){this.path=a},setMaterials:function(a){this.materials=a},_createParserState:function(){var a={objects:[],object:{},vertices:[],normals:[],uvs:[],materialLibraries:[],startObject:function(a,b){if(this.object&&this.object.fromDeclaration===!1)return this.object.name=a,void(this.object.fromDeclaration=b!==!1);var c=this.object&&"function"==typeof this.object.currentMaterial?this.object.currentMaterial():void 0;if(this.object&&"function"==typeof this.object._finalize&&this.object._finalize(!0),this.object={name:a||"",fromDeclaration:b!==!1,geometry:{vertices:[],normals:[],uvs:[]},materials:[],smooth:!0,startMaterial:function(a,b){var c=this._finalize(!1);c&&(c.inherited||c.groupCount<=0)&&this.materials.splice(c.index,1);var d={index:this.materials.length,name:a||"",mtllib:Array.isArray(b)&&b.length>0?b[b.length-1]:"",smooth:void 0!==c?c.smooth:this.smooth,groupStart:void 0!==c?c.groupEnd:0,groupEnd:-1,groupCount:-1,inherited:!1,clone:function(a){var b={index:"number"==typeof a?a:this.index,name:this.name,mtllib:this.mtllib,smooth:this.smooth,groupStart:0,groupEnd:-1,groupCount:-1,inherited:!1};return b.clone=this.clone.bind(b),b}};return this.materials.push(d),d},currentMaterial:function(){if(this.materials.length>0)return this.materials[this.materials.length-1]},_finalize:function(a){var b=this.currentMaterial();if(b&&b.groupEnd===-1&&(b.groupEnd=this.geometry.vertices.length/3,b.groupCount=b.groupEnd-b.groupStart,b.inherited=!1),a&&this.materials.length>1)for(var c=this.materials.length-1;c>=0;c--)this.materials[c].groupCount<=0&&this.materials.splice(c,1);return a&&0===this.materials.length&&this.materials.push({name:"",smooth:this.smooth}),b}},c&&c.name&&"function"==typeof c.clone){var d=c.clone(0);d.inherited=!0,this.object.materials.push(d)}this.objects.push(this.object)},finalize:function(){this.object&&"function"==typeof this.object._finalize&&this.object._finalize(!0)},parseVertexIndex:function(a,b){var c=parseInt(a,10);return 3*(c>=0?c-1:c+b/3)},parseNormalIndex:function(a,b){var c=parseInt(a,10);return 3*(c>=0?c-1:c+b/3)},parseUVIndex:function(a,b){var c=parseInt(a,10);return 2*(c>=0?c-1:c+b/2)},addVertex:function(a,b,c){var d=this.vertices,e=this.object.geometry.vertices;e.push(d[a+0]),e.push(d[a+1]),e.push(d[a+2]),e.push(d[b+0]),e.push(d[b+1]),e.push(d[b+2]),e.push(d[c+0]),e.push(d[c+1]),e.push(d[c+2])},addVertexLine:function(a){var b=this.vertices,c=this.object.geometry.vertices;c.push(b[a+0]),c.push(b[a+1]),c.push(b[a+2])},addNormal:function(a,b,c){var d=this.normals,e=this.object.geometry.normals;e.push(d[a+0]),e.push(d[a+1]),e.push(d[a+2]),e.push(d[b+0]),e.push(d[b+1]),e.push(d[b+2]),e.push(d[c+0]),e.push(d[c+1]),e.push(d[c+2])},addUV:function(a,b,c){var d=this.uvs,e=this.object.geometry.uvs;e.push(d[a+0]),e.push(d[a+1]),e.push(d[b+0]),e.push(d[b+1]),e.push(d[c+0]),e.push(d[c+1])},addUVLine:function(a){var b=this.uvs,c=this.object.geometry.uvs;c.push(b[a+0]),c.push(b[a+1])},addFace:function(a,b,c,d,e,f,g,h,i,j,k,l){var q,m=this.vertices.length,n=this.parseVertexIndex(a,m),o=this.parseVertexIndex(b,m),p=this.parseVertexIndex(c,m);if(void 0===d?this.addVertex(n,o,p):(q=this.parseVertexIndex(d,m),this.addVertex(n,o,q),this.addVertex(o,p,q)),void 0!==e){var r=this.uvs.length;n=this.parseUVIndex(e,r),o=this.parseUVIndex(f,r),p=this.parseUVIndex(g,r),void 0===d?this.addUV(n,o,p):(q=this.parseUVIndex(h,r),this.addUV(n,o,q),this.addUV(o,p,q))}if(void 0!==i){var s=this.normals.length;n=this.parseNormalIndex(i,s),o=i===j?n:this.parseNormalIndex(j,s),p=i===k?n:this.parseNormalIndex(k,s),void 0===d?this.addNormal(n,o,p):(q=this.parseNormalIndex(l,s),this.addNormal(n,o,q),this.addNormal(o,p,q))}},addLineGeometry:function(a,b){this.object.geometry.type="Line";for(var c=this.vertices.length,d=this.uvs.length,e=0,f=a.length;e<f;e++)this.addVertexLine(this.parseVertexIndex(a[e],c));for(var g=0,f=b.length;g<f;g++)this.addUVLine(this.parseUVIndex(b[g],d))}};return a.startObject("",!1),a},parse:function(a){console.time("OBJLoader");var b=this._createParserState();a.indexOf("\r\n")!==-1&&(a=a.replace(/\r\n/g,"\n")),a.indexOf("\\\n")!==-1&&(a=a.replace(/\\\n/g,""));for(var c=a.split("\n"),d="",e="",f="",g=0,h=[],i="function"==typeof"".trimLeft,j=0,k=c.length;j<k;j++)if(d=c[j],d=i?d.trimLeft():d.trim(),g=d.length,0!==g&&(e=d.charAt(0),"#"!==e))if("v"===e)if(f=d.charAt(1)," "===f&&null!==(h=this.regexp.vertex_pattern.exec(d)))b.vertices.push(parseFloat(h[1]),parseFloat(h[2]),parseFloat(h[3]));else if("n"===f&&null!==(h=this.regexp.normal_pattern.exec(d)))b.normals.push(parseFloat(h[1]),parseFloat(h[2]),parseFloat(h[3]));else{if("t"!==f||null===(h=this.regexp.uv_pattern.exec(d)))throw new Error("Unexpected vertex/normal/uv line: '"+d+"'");b.uvs.push(parseFloat(h[1]),parseFloat(h[2]))}else if("f"===e)if(null!==(h=this.regexp.face_vertex_uv_normal.exec(d)))b.addFace(h[1],h[4],h[7],h[10],h[2],h[5],h[8],h[11],h[3],h[6],h[9],h[12]);else if(null!==(h=this.regexp.face_vertex_uv.exec(d)))b.addFace(h[1],h[3],h[5],h[7],h[2],h[4],h[6],h[8]);else if(null!==(h=this.regexp.face_vertex_normal.exec(d)))b.addFace(h[1],h[3],h[5],h[7],void 0,void 0,void 0,void 0,h[2],h[4],h[6],h[8]);else{if(null===(h=this.regexp.face_vertex.exec(d)))throw new Error("Unexpected face line: '"+d+"'");b.addFace(h[1],h[2],h[3],h[4])}else if("l"===e){var l=d.substring(1).trim().split(" "),m=[],n=[];if(d.indexOf("/")===-1)m=l;else for(var o=0,p=l.length;o<p;o++){var q=l[o].split("/");""!==q[0]&&m.push(q[0]),""!==q[1]&&n.push(q[1])}b.addLineGeometry(m,n)}else if(null!==(h=this.regexp.object_pattern.exec(d))){var r=(" "+h[0].substr(1).trim()).substr(1);b.startObject(r)}else if(this.regexp.material_use_pattern.test(d))b.object.startMaterial(d.substring(7).trim(),b.materialLibraries);else if(this.regexp.material_library_pattern.test(d))b.materialLibraries.push(d.substring(7).trim());else{if(null===(h=this.regexp.smoothing_pattern.exec(d))){if("\0"===d)continue;throw new Error("Unexpected line: '"+d+"'")}var s=h[1].trim().toLowerCase();b.object.smooth="1"===s||"on"===s;var t=b.object.currentMaterial();t&&(t.smooth=b.object.smooth)}b.finalize();var u=new THREE.Group;u.materialLibraries=[].concat(b.materialLibraries);for(var j=0,k=b.objects.length;j<k;j++){var v=b.objects[j],w=v.geometry,x=v.materials,y="Line"===w.type;if(0!==w.vertices.length){var z=new THREE.BufferGeometry;z.addAttribute("position",new THREE.BufferAttribute(new Float32Array(w.vertices),3)),w.normals.length>0?z.addAttribute("normal",new THREE.BufferAttribute(new Float32Array(w.normals),3)):z.computeVertexNormals(),w.uvs.length>0&&z.addAttribute("uv",new THREE.BufferAttribute(new Float32Array(w.uvs),2));for(var A=[],B=0,C=x.length;B<C;B++){var D=x[B],t=void 0;if(null!==this.materials&&(t=this.materials.create(D.name),y&&t&&!(t instanceof THREE.LineBasicMaterial))){var E=new THREE.LineBasicMaterial;E.copy(t),t=E}t||(t=y?new THREE.LineBasicMaterial:new THREE.MeshPhongMaterial,t.name=D.name),t.shading=D.smooth?THREE.SmoothShading:THREE.FlatShading,A.push(t)}var F;if(A.length>1){for(var B=0,C=x.length;B<C;B++){var D=x[B];z.addGroup(D.groupStart,D.groupCount,B)}var G=new THREE.MultiMaterial(A);F=y?new THREE.LineSegments(z,G):new THREE.Mesh(z,G)}else F=y?new THREE.LineSegments(z,A[0]):new THREE.Mesh(z,A[0]);F.name=v.name,u.add(F)}}return console.timeEnd("OBJLoader"),u}};
+THREE.OBJLoader=function(a){this.manager=void 0!==a?a:THREE.DefaultLoadingManager,this.materials=null,this.regexp={vertex_pattern:/^v\s+([\d|\.|\+|\-|e|E]+)\s+([\d|\.|\+|\-|e|E]+)\s+([\d|\.|\+|\-|e|E]+)/,normal_pattern:/^vn\s+([\d|\.|\+|\-|e|E]+)\s+([\d|\.|\+|\-|e|E]+)\s+([\d|\.|\+|\-|e|E]+)/,uv_pattern:/^vt\s+([\d|\.|\+|\-|e|E]+)\s+([\d|\.|\+|\-|e|E]+)/,face_vertex:/^f\s+(-?\d+)\s+(-?\d+)\s+(-?\d+)(?:\s+(-?\d+))?/,face_vertex_uv:/^f\s+(-?\d+)\/(-?\d+)\s+(-?\d+)\/(-?\d+)\s+(-?\d+)\/(-?\d+)(?:\s+(-?\d+)\/(-?\d+))?/,face_vertex_uv_normal:/^f\s+(-?\d+)\/(-?\d+)\/(-?\d+)\s+(-?\d+)\/(-?\d+)\/(-?\d+)\s+(-?\d+)\/(-?\d+)\/(-?\d+)(?:\s+(-?\d+)\/(-?\d+)\/(-?\d+))?/,face_vertex_normal:/^f\s+(-?\d+)\/\/(-?\d+)\s+(-?\d+)\/\/(-?\d+)\s+(-?\d+)\/\/(-?\d+)(?:\s+(-?\d+)\/\/(-?\d+))?/,object_pattern:/^[og]\s*(.+)?/,smoothing_pattern:/^s\s+(\d+|on|off)/,material_library_pattern:/^mtllib /,material_use_pattern:/^usemtl /}},THREE.OBJLoader.prototype={constructor:THREE.OBJLoader,load:function(a,b,c,d){var e=this,f=new THREE.FileLoader(e.manager);f.setPath(this.path),f.load(a,function(a){b(e.parse(a))},c,d)},setPath:function(a){this.path=a},setMaterials:function(a){this.materials=a},_createParserState:function(){var a={objects:[],object:{},vertices:[],normals:[],uvs:[],materialLibraries:[],startObject:function(a,b){if(this.object&&this.object.fromDeclaration===!1)return this.object.name=a,void(this.object.fromDeclaration=b!==!1);var c=this.object&&"function"==typeof this.object.currentMaterial?this.object.currentMaterial():void 0;if(this.object&&"function"==typeof this.object._finalize&&this.object._finalize(!0),this.object={name:a||"",fromDeclaration:b!==!1,geometry:{vertices:[],normals:[],uvs:[]},materials:[],smooth:!0,startMaterial:function(a,b){var c=this._finalize(!1);c&&(c.inherited||c.groupCount<=0)&&this.materials.splice(c.index,1);var d={index:this.materials.length,name:a||"",mtllib:Array.isArray(b)&&b.length>0?b[b.length-1]:"",smooth:void 0!==c?c.smooth:this.smooth,groupStart:void 0!==c?c.groupEnd:0,groupEnd:-1,groupCount:-1,inherited:!1,clone:function(a){var b={index:"number"==typeof a?a:this.index,name:this.name,mtllib:this.mtllib,smooth:this.smooth,groupStart:0,groupEnd:-1,groupCount:-1,inherited:!1};return b.clone=this.clone.bind(b),b}};return this.materials.push(d),d},currentMaterial:function(){if(this.materials.length>0)return this.materials[this.materials.length-1]},_finalize:function(a){var b=this.currentMaterial();if(b&&b.groupEnd===-1&&(b.groupEnd=this.geometry.vertices.length/3,b.groupCount=b.groupEnd-b.groupStart,b.inherited=!1),a&&this.materials.length>1)for(var c=this.materials.length-1;c>=0;c--)this.materials[c].groupCount<=0&&this.materials.splice(c,1);return a&&0===this.materials.length&&this.materials.push({name:"",smooth:this.smooth}),b}},c&&c.name&&"function"==typeof c.clone){var d=c.clone(0);d.inherited=!0,this.object.materials.push(d)}this.objects.push(this.object)},finalize:function(){this.object&&"function"==typeof this.object._finalize&&this.object._finalize(!0)},parseVertexIndex:function(a,b){var c=parseInt(a,10);return 3*(c>=0?c-1:c+b/3)},parseNormalIndex:function(a,b){var c=parseInt(a,10);return 3*(c>=0?c-1:c+b/3)},parseUVIndex:function(a,b){var c=parseInt(a,10);return 2*(c>=0?c-1:c+b/2)},addVertex:function(a,b,c){var d=this.vertices,e=this.object.geometry.vertices;e.push(d[a+0]),e.push(d[a+1]),e.push(d[a+2]),e.push(d[b+0]),e.push(d[b+1]),e.push(d[b+2]),e.push(d[c+0]),e.push(d[c+1]),e.push(d[c+2])},addVertexLine:function(a){var b=this.vertices,c=this.object.geometry.vertices;c.push(b[a+0]),c.push(b[a+1]),c.push(b[a+2])},addNormal:function(a,b,c){var d=this.normals,e=this.object.geometry.normals;e.push(d[a+0]),e.push(d[a+1]),e.push(d[a+2]),e.push(d[b+0]),e.push(d[b+1]),e.push(d[b+2]),e.push(d[c+0]),e.push(d[c+1]),e.push(d[c+2])},addUV:function(a,b,c){var d=this.uvs,e=this.object.geometry.uvs;e.push(d[a+0]),e.push(d[a+1]),e.push(d[b+0]),e.push(d[b+1]),e.push(d[c+0]),e.push(d[c+1])},addUVLine:function(a){var b=this.uvs,c=this.object.geometry.uvs;c.push(b[a+0]),c.push(b[a+1])},addFace:function(a,b,c,d,e,f,g,h,i,j,k,l){var q,m=this.vertices.length,n=this.parseVertexIndex(a,m),o=this.parseVertexIndex(b,m),p=this.parseVertexIndex(c,m);if(void 0===d?this.addVertex(n,o,p):(q=this.parseVertexIndex(d,m),this.addVertex(n,o,q),this.addVertex(o,p,q)),void 0!==e){var r=this.uvs.length;n=this.parseUVIndex(e,r),o=this.parseUVIndex(f,r),p=this.parseUVIndex(g,r),void 0===d?this.addUV(n,o,p):(q=this.parseUVIndex(h,r),this.addUV(n,o,q),this.addUV(o,p,q))}if(void 0!==i){var s=this.normals.length;n=this.parseNormalIndex(i,s),o=i===j?n:this.parseNormalIndex(j,s),p=i===k?n:this.parseNormalIndex(k,s),void 0===d?this.addNormal(n,o,p):(q=this.parseNormalIndex(l,s),this.addNormal(n,o,q),this.addNormal(o,p,q))}},addLineGeometry:function(a,b){this.object.geometry.type="Line";for(var c=this.vertices.length,d=this.uvs.length,e=0,f=a.length;e<f;e++)this.addVertexLine(this.parseVertexIndex(a[e],c));for(var g=0,f=b.length;g<f;g++)this.addUVLine(this.parseUVIndex(b[g],d))}};return a.startObject("",!1),a},parse:function(a){console.time("OBJLoader");var b=this._createParserState();a.indexOf("\r\n")!==-1&&(a=a.replace(/\r\n/g,"\n")),a.indexOf("\\\n")!==-1&&(a=a.replace(/\\\n/g,""));for(var c=a.split("\n"),d="",e="",f="",g=0,h=[],i="function"==typeof"".trimLeft,j=0,k=c.length;j<k;j++)if(d=c[j],d=i?d.trimLeft():d.trim(),g=d.length,0!==g&&(e=d.charAt(0),"#"!==e))if("v"===e)if(f=d.charAt(1)," "===f&&null!==(h=this.regexp.vertex_pattern.exec(d)))b.vertices.push(parseFloat(h[1]),parseFloat(h[2]),parseFloat(h[3]));else if("n"===f&&null!==(h=this.regexp.normal_pattern.exec(d)))b.normals.push(parseFloat(h[1]),parseFloat(h[2]),parseFloat(h[3]));else{if("t"!==f||null===(h=this.regexp.uv_pattern.exec(d)))throw new Error("Unexpected vertex/normal/uv line: '"+d+"'");b.uvs.push(parseFloat(h[1]),parseFloat(h[2]))}else if("f"===e)if(null!==(h=this.regexp.face_vertex_uv_normal.exec(d)))b.addFace(h[1],h[4],h[7],h[10],h[2],h[5],h[8],h[11],h[3],h[6],h[9],h[12]);else if(null!==(h=this.regexp.face_vertex_uv.exec(d)))b.addFace(h[1],h[3],h[5],h[7],h[2],h[4],h[6],h[8]);else if(null!==(h=this.regexp.face_vertex_normal.exec(d)))b.addFace(h[1],h[3],h[5],h[7],void 0,void 0,void 0,void 0,h[2],h[4],h[6],h[8]);else{if(null===(h=this.regexp.face_vertex.exec(d)))throw new Error("Unexpected face line: '"+d+"'");b.addFace(h[1],h[2],h[3],h[4])}else if("l"===e){var l=d.substring(1).trim().split(" "),m=[],n=[];if(d.indexOf("/")===-1)m=l;else for(var o=0,p=l.length;o<p;o++){var q=l[o].split("/");""!==q[0]&&m.push(q[0]),""!==q[1]&&n.push(q[1])}b.addLineGeometry(m,n)}else if(null!==(h=this.regexp.object_pattern.exec(d))){var r=(" "+h[0].substr(1).trim()).substr(1);b.startObject(r)}else if(this.regexp.material_use_pattern.test(d))b.object.startMaterial(d.substring(7).trim(),b.materialLibraries);else if(this.regexp.material_library_pattern.test(d))b.materialLibraries.push(d.substring(7).trim());else{if(null===(h=this.regexp.smoothing_pattern.exec(d))){if("\0"===d)continue;throw new Error("Unexpected line: '"+d+"'")}var s=h[1].trim().toLowerCase();b.object.smooth="1"===s||"on"===s;var t=b.object.currentMaterial();t&&(t.smooth=b.object.smooth)}b.finalize();var u=new THREE.Group;u.materialLibraries=[].concat(b.materialLibraries);for(var j=0,k=b.objects.length;j<k;j++){var v=b.objects[j],w=v.geometry,x=v.materials,y="Line"===w.type;if(0!==w.vertices.length){var z=new THREE.BufferGeometry;z.addAttribute("position",new THREE.BufferAttribute(new Float32Array(w.vertices),3)),w.normals.length>0?z.addAttribute("normal",new THREE.BufferAttribute(new Float32Array(w.normals),3)):z.computeVertexNormals(),w.uvs.length>0&&z.addAttribute("uv",new THREE.BufferAttribute(new Float32Array(w.uvs),2));for(var A=[],B=0,C=x.length;B<C;B++){var D=x[B],t=void 0;if(null!==this.materials&&(t=this.materials.create(D.name),y&&t&&!(t instanceof THREE.LineBasicMaterial))){var E=new THREE.LineBasicMaterial;E.copy(t),t=E}t||(t=y?new THREE.LineBasicMaterial:new THREE.MeshPhongMaterial,t.name=D.name),t.shading=D.smooth?THREE.SmoothShading:THREE.FlatShading,A.push(t)}var F;if(A.length>1){for(var B=0,C=x.length;B<C;B++){var D=x[B];z.addGroup(D.groupStart,D.groupCount,B)}var G=new THREE.MultiMaterial(A);F=y?new THREE.LineSegments(z,G):new THREE.Mesh(z,G)}else F=y?new THREE.LineSegments(z,A[0]):new THREE.Mesh(z,A[0]);F.name=v.name,u.add(F)}}return console.timeEnd("OBJLoader"),u}};
 
 
 var textureLoader = new THREE.TextureLoader()
@@ -2037,17 +2037,9 @@ manager.onProgress = function ( item, loaded, total ) {
   progressBar.style.width = (loaded / total * 100) + '%';
 };
 manager.onLoad = function () {
-	document.body.classList.add('loaded')
+	setTimeout(function() {document.body.classList.add('loaded')},500)
 }
 
-// function addRandomPlaceHoldItImage(){
-//   var r = Math.round(Math.random() * 4000);
-//   new THREE.ImageLoader(manager).load('http://placehold.it/' + r + 'x' + r);
-// }
-//
-// for(var i = 0; i < 10; i++) addRandomPlaceHoldItImage();
-
-//
 
 	var controls
 	var debug = true;
@@ -2179,6 +2171,7 @@ manager.onLoad = function () {
 			transparent: true,
 			opacity: 0.3
 		})
+/*
 		flareMaterial = new THREE.MeshPhongMaterial({
 			color: 0xffffff,
 			shininess:100,
@@ -2196,6 +2189,7 @@ manager.onLoad = function () {
 			//emissive: 0xffffff,
 			emissiveIntensity: 100
 		})
+*/
 
 
 		bgMaterial = new THREE.MeshBasicMaterial({
@@ -2278,6 +2272,7 @@ manager.onLoad = function () {
 		scene.add(roadSide2)
 		scene.add(roadSide1)
 
+/*
 		var flare1geo = new THREE.CircleBufferGeometry( 1, 7 );
 
 		flareChain =  new THREE.Object3D();
@@ -2294,6 +2289,7 @@ manager.onLoad = function () {
 		flareChain.rotation.set(0,Math.PI/3,0)
 		console.log(flareChain)
 		scene.add(flareChain);
+*/
 
 
 	//--------------- STATS ---------------------//
@@ -2355,16 +2351,11 @@ manager.onLoad = function () {
 
 			object.traverse( function ( child ) {
 				if ( child instanceof THREE.Mesh ) {
-				//	child.material = brownMaterial
-					//child.scale.set(scale, scale, scale);
-					//child.position.set(position[0],position[1],position[2]);
+
 					if (typeof scene != "undefined") {
 						for (var i=0; i<300; i++) {
-					//
-					// 	console.log(child.geometry)
-						//var geo = child.geometry.clone();
-					// 	//geo.geometryNeedsUpdate = true;
-						var newChild = new THREE.Mesh(child.geometry.clone(), treeMaterial);// new THREE.Mesh(child.geometry,brownMaterial )
+
+						var newChild = new THREE.Mesh(child.geometry.clone(), treeMaterial);
 						var x  = (2 * (i % 2 -0.5)) * (4.5 + (Math.random())*20)
 						var y = -2.5
 						var z = i*4 + (Math.random()-0.5) * 3
@@ -2398,13 +2389,12 @@ manager.onLoad = function () {
 		composer.addPass(effectGrain);
 
 		//larger values = darker closer to center
-	//	darkness < 1  => lighter edges
+		//	darkness < 1  => lighter edges
 		effectVignette.uniforms[ "offset" ].value = 1;
 		effectVignette.uniforms[ "darkness" ].value = 1;
 		effectVignette.renderToScreen = true;
 
 		composer.addPass(effectVignette);
-		//effectFilm.renderToScreen = true;
 		effectVignette.renderToScreen = true;
 		console.log(composer)
 		shaderActive = "vignette";
@@ -2431,7 +2421,6 @@ manager.onLoad = function () {
 
 	}
 	
-	//svar infoContainer = document.getElementById('info');
 	
 	function onDeviceOrientationChanged(eventData) {
 		
@@ -2454,10 +2443,7 @@ manager.onLoad = function () {
 			mouseY = (x-45)/90
 			
 		}
-		
-		//infoContainer.innerHTML = x + '<br> '+ y + '<br>' + mouseY;
 
-		//mouseY = y/100
 	}
 
 	function animate() {
@@ -2475,8 +2461,8 @@ manager.onLoad = function () {
 
     roadMaterial.uniforms['uTime'].value = elapsed;
 
-		roadSide1.position.z -= 0.8//elapsed * 0.00002
-		roadSide2.position.z -= 0.8//elapsed * 0.00002
+		roadSide1.position.z -= 0.8
+		roadSide2.position.z -= 0.8
 
 
 		if (roadSide1.position.z < -300) {
@@ -2487,6 +2473,7 @@ manager.onLoad = function () {
 		}
 		
 		var flareRot = Math.PI/3 - 3*mouseX
+/*
 
 		flareChain.rotation.y = flareRot;
 
@@ -2494,19 +2481,17 @@ manager.onLoad = function () {
 			flareChain.children[i].rotation.y = -flareRot
 			flareChain.children[i].material.opacity = mouseX+0.5
 		}
-		//flareChain.rotation.y = - mouseX * 2;
+*/
 
 		var shoogle = 0.01//0.05;
 
 		camera.lookAt( cameraTarget );
-	//	console.log(mouseX)
 		camera.position.x = shoogle  *(Math.random()-0.5) + Math.cos(Math.PI * (mouseX -0.5)) // reduce rate of change at the edges
 		camera.position.y = 1.3 + shoogle *2 *(Math.random()-0.5) + Math.cos(Math.PI * (mouseY -0.5))/1.5
-		//console.log(camera.position.y )
 		camera.rotation.z = mouseX/300 * Math.PI/5
 
 
-		//renderer.render( scene, camera );
+		//renderer.render( scene, camera ); // no composer effects
 
 		composer.render();
 
@@ -2903,7 +2888,7 @@ function initButterflies() {
 	
 	var loader = new THREE.JSONLoader();
 	loader.load('assets/objects/man2-lowpoly.json',function(geometry){
-		var man = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0xffffff}))
+		var man = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0xffffff, emissive: 0x222222}))
 		man.scale.setScalar(50);
 		man.position.set(0,0,0)
 		man.rotation.set(0, Math.PI,0)
@@ -2927,7 +2912,7 @@ function initButterflies() {
 	//
 
 	var light = new THREE.DirectionalLight()
-	light.position.set(1,1,1)
+	light.position.set(1,1,5)
 	sceneB.add(light)
 
 	//
@@ -3081,8 +3066,10 @@ for (var i=0; i<menuItems.length; i++) {
 }
 
 function onNavClick(e) {
-	console.log(e);
-	if (e.srcElement.className.includes('internal-link')) {
+	//console.log(e.target.className);
+	//e.preventDefault();
+
+	if (e.target.className.includes('internal-link')) {
 		e.preventDefault();
 		console.log(e.target.pathname.slice(1))
 		var pageName = e.target.pathname.slice(1);

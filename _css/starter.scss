@@ -9,22 +9,8 @@
 	width: 100%;
 	height: 50%;
 	display: block;
-/*
-	align-items: center;
-	justify-content: center;
-*/
 	transform: translateX(120%);
-	//@include transitionIn;
-	
-
-
-	//transform-style: preserve-3d;
-/*
-  perspective: 400px;
-  perspective-origin: 40% 50%;
-*/
 	border: $test solid orange;
-
 }
 
 .active-starter .starter-container {
@@ -34,7 +20,6 @@
 
 
 .flame {
-//	position: absolute;
 	position: relative;
 	margin: 0 auto;
 	left: 000px;
@@ -49,8 +34,7 @@
 
 @keyframes play {
 	0% { background-position-y: 0%; }
-// 	100% { background-position-y: -10800px }
-		100% { background-position-y: -8000px }
+	100% { background-position-y: -8000px }
 
 }
 
@@ -69,7 +53,10 @@
 	background: -o-linear-gradient(transparent, transparent);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-	animation: flicker 1s linear infinite;
+	@media (max-width: $mobile){
+		top: 260px;
+	}
+
 }
 
 @keyframes flicker {

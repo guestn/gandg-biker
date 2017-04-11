@@ -8,17 +8,9 @@ manager.onProgress = function ( item, loaded, total ) {
   progressBar.style.width = (loaded / total * 100) + '%';
 };
 manager.onLoad = function () {
-	document.body.classList.add('loaded')
+	setTimeout(function() {document.body.classList.add('loaded')},500)
 }
 
-// function addRandomPlaceHoldItImage(){
-//   var r = Math.round(Math.random() * 4000);
-//   new THREE.ImageLoader(manager).load('http://placehold.it/' + r + 'x' + r);
-// }
-//
-// for(var i = 0; i < 10; i++) addRandomPlaceHoldItImage();
-
-//
 
 	var controls
 	var debug = true;
@@ -150,6 +142,7 @@ manager.onLoad = function () {
 			transparent: true,
 			opacity: 0.3
 		})
+/*
 		flareMaterial = new THREE.MeshPhongMaterial({
 			color: 0xffffff,
 			shininess:100,
@@ -167,6 +160,7 @@ manager.onLoad = function () {
 			//emissive: 0xffffff,
 			emissiveIntensity: 100
 		})
+*/
 
 
 		bgMaterial = new THREE.MeshBasicMaterial({
@@ -249,6 +243,7 @@ manager.onLoad = function () {
 		scene.add(roadSide2)
 		scene.add(roadSide1)
 
+/*
 		var flare1geo = new THREE.CircleBufferGeometry( 1, 7 );
 
 		flareChain =  new THREE.Object3D();
@@ -265,6 +260,7 @@ manager.onLoad = function () {
 		flareChain.rotation.set(0,Math.PI/3,0)
 		console.log(flareChain)
 		scene.add(flareChain);
+*/
 
 
 	//--------------- STATS ---------------------//
@@ -326,16 +322,11 @@ manager.onLoad = function () {
 
 			object.traverse( function ( child ) {
 				if ( child instanceof THREE.Mesh ) {
-				//	child.material = brownMaterial
-					//child.scale.set(scale, scale, scale);
-					//child.position.set(position[0],position[1],position[2]);
+
 					if (typeof scene != "undefined") {
 						for (var i=0; i<300; i++) {
-					//
-					// 	console.log(child.geometry)
-						//var geo = child.geometry.clone();
-					// 	//geo.geometryNeedsUpdate = true;
-						var newChild = new THREE.Mesh(child.geometry.clone(), treeMaterial);// new THREE.Mesh(child.geometry,brownMaterial )
+
+						var newChild = new THREE.Mesh(child.geometry.clone(), treeMaterial);
 						var x  = (2 * (i % 2 -0.5)) * (4.5 + (Math.random())*20)
 						var y = -2.5
 						var z = i*4 + (Math.random()-0.5) * 3
@@ -369,13 +360,12 @@ manager.onLoad = function () {
 		composer.addPass(effectGrain);
 
 		//larger values = darker closer to center
-	//	darkness < 1  => lighter edges
+		//	darkness < 1  => lighter edges
 		effectVignette.uniforms[ "offset" ].value = 1;
 		effectVignette.uniforms[ "darkness" ].value = 1;
 		effectVignette.renderToScreen = true;
 
 		composer.addPass(effectVignette);
-		//effectFilm.renderToScreen = true;
 		effectVignette.renderToScreen = true;
 		console.log(composer)
 		shaderActive = "vignette";
@@ -402,7 +392,6 @@ manager.onLoad = function () {
 
 	}
 	
-	//svar infoContainer = document.getElementById('info');
 	
 	function onDeviceOrientationChanged(eventData) {
 		
@@ -425,10 +414,7 @@ manager.onLoad = function () {
 			mouseY = (x-45)/90
 			
 		}
-		
-		//infoContainer.innerHTML = x + '<br> '+ y + '<br>' + mouseY;
 
-		//mouseY = y/100
 	}
 
 	function animate() {
@@ -446,8 +432,8 @@ manager.onLoad = function () {
 
     roadMaterial.uniforms['uTime'].value = elapsed;
 
-		roadSide1.position.z -= 0.8//elapsed * 0.00002
-		roadSide2.position.z -= 0.8//elapsed * 0.00002
+		roadSide1.position.z -= 0.8
+		roadSide2.position.z -= 0.8
 
 
 		if (roadSide1.position.z < -300) {
@@ -458,6 +444,7 @@ manager.onLoad = function () {
 		}
 		
 		var flareRot = Math.PI/3 - 3*mouseX
+/*
 
 		flareChain.rotation.y = flareRot;
 
@@ -465,19 +452,17 @@ manager.onLoad = function () {
 			flareChain.children[i].rotation.y = -flareRot
 			flareChain.children[i].material.opacity = mouseX+0.5
 		}
-		//flareChain.rotation.y = - mouseX * 2;
+*/
 
 		var shoogle = 0.01//0.05;
 
 		camera.lookAt( cameraTarget );
-	//	console.log(mouseX)
 		camera.position.x = shoogle  *(Math.random()-0.5) + Math.cos(Math.PI * (mouseX -0.5)) // reduce rate of change at the edges
 		camera.position.y = 1.3 + shoogle *2 *(Math.random()-0.5) + Math.cos(Math.PI * (mouseY -0.5))/1.5
-		//console.log(camera.position.y )
 		camera.rotation.z = mouseX/300 * Math.PI/5
 
 
-		//renderer.render( scene, camera );
+		//renderer.render( scene, camera ); // no composer effects
 
 		composer.render();
 

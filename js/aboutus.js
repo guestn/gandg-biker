@@ -388,7 +388,7 @@ function initButterflies() {
 	
 	var loader = new THREE.JSONLoader();
 	loader.load('assets/objects/man2-lowpoly.json',function(geometry){
-		var man = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0xffffff}))
+		var man = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0xffffff, emissive: 0x222222}))
 		man.scale.setScalar(50);
 		man.position.set(0,0,0)
 		man.rotation.set(0, Math.PI,0)
@@ -412,7 +412,7 @@ function initButterflies() {
 	//
 
 	var light = new THREE.DirectionalLight()
-	light.position.set(1,1,1)
+	light.position.set(1,1,5)
 	sceneB.add(light)
 
 	//

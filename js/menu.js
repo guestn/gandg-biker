@@ -76,8 +76,10 @@ for (var i=0; i<menuItems.length; i++) {
 }
 
 function onNavClick(e) {
-	console.log(e);
-	if (e.srcElement.className.includes('internal-link')) {
+	//console.log(e.target.className);
+	//e.preventDefault();
+
+	if (e.target.className.includes('internal-link')) {
 		e.preventDefault();
 		console.log(e.target.pathname.slice(1))
 		var pageName = e.target.pathname.slice(1);

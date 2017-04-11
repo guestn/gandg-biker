@@ -12,12 +12,6 @@
 	opacity: 0;
 	@include transitionIn;
 
-	//transform-style: preserve-3d;
-/*
-  perspective: 400px;
-  perspective-origin: 40% 50%;
-*/
-	border: $test solid orange;
 	.text-content {
 		position:absolute;
 		top:40px;
@@ -33,9 +27,26 @@
 		p {
 			line-height: 1.5;
 			color: #ccc;
+			&.white {
+				color:white;
+				font-size: 1.25em;
+			}
 		}
 		a {
 			color: $hilite-color;
+		}
+	}
+	img {
+		position: absolute;
+		right: 40px;
+		top: 40px;
+		width: 64px;
+	}
+	@media (max-width: $mobile) {
+		img {
+			width:32px;
+			top: 40px;
+			right: 40px;
 		}
 	}
 

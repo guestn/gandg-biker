@@ -18,14 +18,15 @@ $menuAnimDuration : 1s;
   border: none;
   transform: skewY(-10deg);
   z-index: 200;
+  cursor: pointer;
 	span {
-  display: block;
-  width: 100%;
-  height: 8%;
-  background: white;
-  position: absolute;
-  left: 0;
-  top: 0;
+	  display: block;
+	  width: 100%;
+	  height: 8%;
+	  background: white;
+	  position: absolute;
+	  left: 0;
+	  top: 0;
 	}
 	span {
 		&:nth-child(2) {
@@ -67,8 +68,6 @@ $menuAnimDuration : 1s;
 	transition: visibility 0.1s linear 0s;
 	opacity:0;
 
-  //transition: clip-path 2s ease, background 0.5s ease 1.5s, visibility 2s;
-  //clip-path: polygon(0% 100%, 15% 96%, 10% 76%, 0% 80%, 0 90%, 0 100%, 15% 100%);
 }
 
 #menu-expander {
@@ -103,31 +102,32 @@ $menuAnimDuration : 1s;
 			}
 		}
 	}
+	
+	.nav-menu {
+		opacity: 1;
+	}
 }
 
 .nav-menu {
 	position: absolute;
-	right: 0;
-	bottom: 0;
-	font-size: 3em;
+	right: 8%;
+	bottom: 12%;
+	font-size: 2.25em;
 	text-transform: uppercase;
 	text-align: right;
 	transform-style: preserve-3d;
-	perspective: 300px;
+	perspective: 700px;
 	width:auto;
 	display:inline-block;
+	opacity: 0;
+	transition: all 1.5s linear 0.5s;
 	
 	a {
 		display: block;
 		color:white;
 		line-height: 0.8;
 		transform-origin: 100% 50%;
-		transform: rotateY(-30deg);
-		//background: url(images/triangle-bg.jpg);
-		//background: -webkit-linear-gradient(transparent, transparent),-webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
-		//background: -o-linear-gradient(transparent, transparent);
-	//-webkit-background-clip: text;
- // -webkit-text-fill-color: transparent;
+		transform: rotateY(-30deg) translateZ(200px);
 		
 		&:nth-child(2) {
 			opacity: 0.8;
@@ -136,11 +136,15 @@ $menuAnimDuration : 1s;
 			opacity: 0.6;
 		}
 	}
-	@media (max-width: $mobile) {
-		font-size: 1.75em;
+	@media (max-width: $mobile){
+		right: -2.5em;
+		bottom: 12%;
+		font-size: 1.0em;
 		max-width: calc(100% - 80px);
 		a {
 			line-height: 1;
+			transform: rotateY(-30deg) translateZ(200px);
+
 		}
 	}
 }
@@ -158,7 +162,7 @@ $menuAnimDuration : 1s;
 	&:after {
 		content: ' ';
 		position: absolute;
-		bottom: 5px;
+		bottom: 0.1em;
 		left: 0;
 		width: 100%;
 		height: 3px;

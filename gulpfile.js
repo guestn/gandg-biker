@@ -36,6 +36,7 @@ gulp.task('css', () => {
 const jsFiles = [
   'js/three.min.js',
 	'js/OBJLoader.min.js',
+	//'js/ObjectLoader.js',
 	'js/RoadShader.js',
 	'js/perlin.js',
 	'js/EffectComposer.js',
