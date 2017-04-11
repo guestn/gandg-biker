@@ -1,0 +1,1284 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   preserveAspectRatio="xMinYMin meet"
+   viewBox="0 0 1600 1000"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.2 r9819"
+   sodipodi:docname="mountains-shadow2.svg"
+   width="100%"
+   height="100%">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient6511">
+      <stop
+         id="stop6513"
+         offset="0"
+         style="stop-color:#939092;stop-opacity:1;" />
+      <stop
+         id="stop6515"
+         offset="1"
+         style="stop-color:#939092;stop-opacity:0;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient6493">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop6495" />
+      <stop
+         style="stop-color:#000000;stop-opacity:1"
+         offset="1"
+         id="stop6497" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient7569">
+      <stop
+         style="stop-color:#939092;stop-opacity:1;"
+         offset="0"
+         id="stop7571" />
+      <stop
+         style="stop-color:#939092;stop-opacity:0;"
+         offset="1"
+         id="stop7573" />
+    </linearGradient>
+    <filter
+       id="filter6190"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6192"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6194"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6196"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6198"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6200"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6202"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6204"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6206"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6208"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6210"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6212"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6214"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6216"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6218"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6220"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6222"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6224"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6226"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6228"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6230"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6232"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6234"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6236"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6238"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6240"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6242"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6244"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6246"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6248"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6250"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6252"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6254"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6256"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6258"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6260"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6262"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6264"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6266"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6268"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6270"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6272"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6274"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6276"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6278"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6280"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6282"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6284"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6286"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6288"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6290"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6292"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6294"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6296"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6298"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6300"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6302"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6304"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6306"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6308"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6310"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6312"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6314"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6316"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6318"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6320"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6322"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6324"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6326"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6328"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6330"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6332"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6334"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6336"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6338"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6340"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6342"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6344"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6346"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6348"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6350"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6352"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6354"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6356"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6358"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6360"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6362"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6364"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6366"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6368"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6370"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6372"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6374"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6376"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6378"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6380"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6382"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6384"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6386"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6388"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6390"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6392"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6394"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6396"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6398"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6400"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6402"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6404"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6406"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6408"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6410"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6412"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6414"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6416"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6418"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6420"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6422"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6424"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6426"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6428"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6430"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6432"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6434"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6436"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6438"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6440"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6442"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6444"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6446"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6448"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6450"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6452"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6454"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6456"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6458"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6460"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6462"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6464"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6466"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6468"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6470"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6472"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6474"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6476"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6478"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6480"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6482"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6484"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6486"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6488"
+         type="saturate"
+         values="0" />
+    </filter>
+    <filter
+       id="filter6490"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix6492"
+         type="saturate"
+         values="0" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient7569"
+       id="linearGradient7575"
+       x1="860"
+       y1="1452.3622"
+       x2="860"
+       y2="352.36218"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-1,0,0,1.3134328,1600,-332.47177)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6493"
+       id="linearGradient6499"
+       x1="2520"
+       y1="1292.3622"
+       x2="2480"
+       y2="-1067.6378"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6511"
+       id="linearGradient6509"
+       x1="2402.363"
+       y1="2997.2722"
+       x2="2642.363"
+       y2="197.2722"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.35879554,37.5422,135.4119)" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="885.53969"
+     inkscape:cy="585.62215"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:snap-global="true"
+     showguides="false"
+     inkscape:window-width="2233"
+     inkscape:window-height="1272"
+     inkscape:window-x="28"
+     inkscape:window-y="228"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3758"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-52.3622)">
+    <path
+       sodipodi:nodetypes="cccccccccccccccccccccccccc"
+       inkscape:connector-curvature="0"
+       id="path7462"
+       d="m 0,1052.3622 1600,0 0,-131.34331 -24,-42.02985 -136,-89.31343 -210,-722.388027 -100,-26.268676 -20,0 L 1030,303.70545 930,435.04874 890,408.78008 810,435.04874 770,408.78008 730,277.4368 670,172.3622 570,119.82485 510,224.89948 490,329.9741 470,382.51142 410,408.78008 370,382.51142 270,408.78008 190,461.31739 120,474.45173 0,684.60098 z"
+       style="fill:url(#linearGradient7575);fill-opacity:1;stroke:none" />
+    <path
+       style="fill:url(#linearGradient6509);fill-opacity:1;stroke:none"
+       d="m 1722.146,979.54609 c -0.8,-75.39815 0.181,-88.14591 9.0079,-117.05425 37.254,-122.00889 47.9263,-172.64606 68.7514,-326.20765 11.2459,-82.92588 21.0873,-153.05767 21.8697,-155.84845 0.7825,-2.79077 11.4076,-28.23394 23.6115,-56.54037 12.2038,-28.3064 25.2169,-58.69585 28.9178,-67.53208 l 6.729,-16.06587 25.6063,-8.21749 c 14.0835,-4.51966 27.38,-8.21749 29.548,-8.21749 2.1679,0 6.698,2.77262 10.067,6.16144 3.3689,3.38878 23.3492,23.10692 44.4005,43.81809 l 38.2752,37.65668 5.9532,-7.21185 c 3.2742,-3.96651 14.6774,-18.30247 25.3405,-31.85767 10.6631,-13.55517 19.9507,-24.90185 20.6392,-25.21482 0.6884,-0.31298 3.7225,0.16672 6.7424,1.06595 5.4156,1.61262 46.2235,9.99226 85.6183,17.58119 47.8238,9.21267 69.3929,13.60966 79.9712,16.30263 11.8534,3.01764 23.2891,2.79574 36.652,-0.7111 6.5067,-1.70756 9.133,-7.65914 19.3796,-43.91799 10.8355,-38.34288 12.9404,-42.90707 24.5242,-53.17836 6.9692,-6.17956 13.9465,-11.23555 15.5051,-11.23555 1.5585,0 15.0855,7.66553 30.0601,17.03459 26.6877,16.69754 36.0536,26.62513 40.0059,42.40525 2.0702,8.26562 75.3461,161.3951 78.6916,164.44708 2.1313,1.94433 8.848,-5.58483 21.9864,-24.6458 18.7442,-27.19375 50.6425,-71.85135 69.3348,-97.06865 5.3337,-7.19556 13.3133,-17.95999 17.7324,-23.92094 4.4191,-5.96091 9.2112,-13.77381 10.6491,-17.36194 5.4512,-13.60297 38.6655,-80.55757 40.9933,-82.63588 2.3779,-2.12309 23.1284,19.21932 60.6011,62.32981 10.0452,11.55657 19.5066,21.34237 21.0252,21.74632 1.5185,0.40392 16.359,7.2583 32.9788,15.23196 16.6197,7.97362 33.4057,15.76218 37.3021,17.30791 3.8965,1.54577 7.0845,3.94724 7.0845,5.3366 0,3.98133 28.2514,113.39713 29.3343,113.60967 0.5336,0.10467 12.4648,2.59911 26.5136,5.54307 14.0489,2.94395 28.7694,5.35264 32.7121,5.35264 4.694,0 12.2803,-3.37815 21.9762,-9.78582 20.7891,-13.73884 67.2506,-48.10383 67.2506,-49.74154 0,-4.61399 13.9665,4.57921 82.8325,54.52293 42.2244,30.62241 78.3261,55.50665 80.226,55.29831 3.2162,-0.35268 44.9521,-58.03103 61.733,-85.314 4.0922,-6.65327 7.9174,-10.79207 8.5005,-9.19734 0.583,1.59473 10.1084,34.21417 21.1676,72.48765 11.0591,38.27347 30.2692,104.16473 42.689,146.42504 12.4199,42.2603 23.1216,79.44648 23.7816,82.63592 0.8946,4.32356 2.9943,325.92737 2.4112,369.32458 l -0.093,6.8863 -798.0205,0 -798.0205,0 -0.5499,-51.82871 z"
+       id="path6501"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

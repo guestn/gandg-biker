@@ -1,0 +1,216 @@
+$menuAnimDuration : 1s;
+
+@mixin transitionIn {
+   transition: all 0.5s ease-in; 
+}
+
+
+// menu //
+
+
+.menu-button {
+	position: absolute;
+  left: 20px;
+  bottom: 40px;
+  width: 100px;
+  height: 50px;
+  background: transparent;
+  border: none;
+  transform: skewY(-10deg);
+  z-index: 200;
+	span {
+  display: block;
+  width: 100%;
+  height: 8%;
+  background: white;
+  position: absolute;
+  left: 0;
+  top: 0;
+	}
+	span {
+		&:nth-child(2) {
+			top: 46%;
+		}
+		&:nth-child(3) {
+			top: 96%;
+		}
+		&:focus,
+		&:active {
+		  outline: 0;
+		}
+	}
+	&:focus,
+	&:active {
+		outline: 0;
+	}
+	@media (max-width: $mobile) {
+		left: 15px;
+		width: 64px;
+		height: 32px;
+	}
+}
+
+#menu {
+  visibility: hidden;
+  overflow: hidden;
+  display: flex;
+	flex-direction: column;
+  justify-content: space-between;
+  //align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  color: white;
+  width: 100%;
+  height: 100%;
+	transition: visibility 0.1s linear 0s;
+	opacity:0;
+
+  //transition: clip-path 2s ease, background 0.5s ease 1.5s, visibility 2s;
+  //clip-path: polygon(0% 100%, 15% 96%, 10% 76%, 0% 80%, 0 90%, 0 100%, 15% 100%);
+}
+
+#menu-expander {
+	width: 100vw;
+	height: 100vh;
+	#morpher {
+		//fill: rgba(0,0,0,0.9);
+	}
+}
+
+
+.menu-active {
+	#menu {
+	  visibility: visible;
+	  opacity: 1;
+	  transition: visibility 1s linear $menuAnimDuration, opacity $menuAnimDuration linear $menuAnimDuration;
+	}
+
+	.menu-button {
+		span {
+			&:nth-child(1) {
+				animation: first 1s ease-out forwards;
+			}
+			&:nth-child(2) {
+				animation: second 1s ease-out forwards;
+			}
+			&:nth-child(3) {
+				animation: third 1s ease-out forwards;
+				@media (max-width: $mobile) {
+					animation: third-mobile 1s ease-out forwards;
+				}
+			}
+		}
+	}
+}
+
+.nav-menu {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	font-size: 3em;
+	text-transform: uppercase;
+	text-align: right;
+	transform-style: preserve-3d;
+	perspective: 300px;
+	width:auto;
+	display:inline-block;
+	
+	a {
+		display: block;
+		color:white;
+		line-height: 0.8;
+		transform-origin: 100% 50%;
+		transform: rotateY(-30deg);
+		//background: url(images/triangle-bg.jpg);
+		//background: -webkit-linear-gradient(transparent, transparent),-webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+		//background: -o-linear-gradient(transparent, transparent);
+	//-webkit-background-clip: text;
+ // -webkit-text-fill-color: transparent;
+		
+		&:nth-child(2) {
+			opacity: 0.8;
+		}
+		&:nth-child(3) {
+			opacity: 0.6;
+		}
+	}
+	@media (max-width: $mobile) {
+		font-size: 1.75em;
+		max-width: calc(100% - 80px);
+		a {
+			line-height: 1;
+		}
+	}
+}
+
+.menu-item {
+	color:white;
+	&:hover {
+		color: #ed5f32;
+		transition: all 0.25s;
+		&:after,
+		&.left:after {
+			transform: translateX(0)
+		}
+	}
+	&:after {
+		content: ' ';
+		position: absolute;
+		bottom: 5px;
+		left: 0;
+		width: 100%;
+		height: 3px;
+		background: linear-gradient(90deg, rgba(255,255,255,0.5), white);
+		transform: translateX(120%);
+		transition: all 0.3s;
+	}
+	&.left:after {
+		transform: translateX(-120%);
+	}
+
+}
+
+@keyframes first {
+  0% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+  100% {
+    transform: translate(-140px, -500px) rotate(320deg);
+  }
+}
+@keyframes second {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(-200px, -140px) rotate(-80deg);
+  }
+  100% {
+    transform: translate(0px, 0px) skewY(30deg);
+  }
+}
+@keyframes third {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(-120px, 240px) rotate(-80deg);
+  }
+  100% {
+    transform: translate(0px, -25px);
+  }
+}
+
+@keyframes third-mobile {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(-120px, 240px) rotate(-80deg);
+  }
+  100% {
+    transform: translate(0px, -16px);
+  }
+}

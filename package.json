@@ -1,0 +1,29 @@
+{
+  "name": "gandg-biker",
+  "version": "1.0.0",
+  "description": "Guest and Guest",
+  "main": "gulp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "N Guest",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.16.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-minify": "0.0.14",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7"
+  },
+  "dependencies": {
+    "gulp-order": "^1.1.1",
+    "gulp-strip-debug": "^1.1.0",
+    "merge-stream": "^1.0.1"
+  }
+}

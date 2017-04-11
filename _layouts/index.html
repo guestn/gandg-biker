@@ -1,0 +1,79 @@
+---
+# homepage
+---
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+
+<head>
+	<title>guest+guest</title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<link href="assets/styles.css" rel="stylesheet" type="text/css">
+	<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44122915-1', 'auto');
+  ga('send', 'pageview');
+
+	</script>
+</head>
+</head>
+
+<body class="">
+	
+	<div id="progressScreen"></div>
+
+	<h1>Get Going!</h1>
+	
+<!-- 	<img src="assets/images/TESTER.jpg" style="width:100vw; height: 100vh; position:absolute;top:0;left:0"/> -->
+
+	<div class="content-container">
+
+	  <div id="menu" class="active-aboutus">
+		
+			<div class="starter-container">
+		  	{% include starter.html %}
+		  </div>
+		  
+		  <div class="portfolio-container">
+		  	{% include portfolio.html %}
+		  </div>
+		  <div class="aboutus-container">
+		  	{% include aboutus.html %}
+		  </div>		  
+
+		  <div class="contact-container">
+		  	{% include contact.html %}
+		  </div>
+		  
+		  <nav class="nav-menu">
+				<a href="portfolio" class="menu-item internal-link">Things we've done</a>
+				<a href="aboutus" class="menu-item internal-link">About us</a>
+				<a href="contact" class="menu-item internal-link">Get your project on the road</a>
+	    </nav>
+
+	  </div>
+	  
+  	<svg id="menu-expander" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="none">
+			<path id="morpher" d="M0,100L0,89.469L0,83.649L0,80.529L0,100L24.32,100L19.67,100L0,100Z" fill="black" opacity="0.2"/>
+		</svg>
+
+	  <button class="menu-button">
+	    <span></span>
+	    <span></span>
+	    <span></span>
+	  </button>
+	
+	</div>
+	
+
+
+<script src="dist/scripts/scripts.min.js"></script>
+
+</body>
+
+</html>

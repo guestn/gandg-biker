@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js Template</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+			}
+
+			input[type="range"] {
+				color: #000;
+				position: absolute;
+				top: 50px;
+				left:0; right: 0;
+				margin: 0 auto;
+				width: 200px;
+				text-align: center;
+				z-index: 100;
+				margin: 0 auto 50px auto;
+				display: block;
+				-webkit-appearance: none;
+				width: 200px;
+				border-radius: 3px;
+				box-shadow: 0 15px 15px -5px rgba(0,0,0,1);
+			}
+			input[type=range]::-webkit-slider-runnable-track {
+			  width: 200px;
+			  height: 5px;
+			  background: #000;
+			  border: none;
+			  border-radius: 3px;
+				box-shadow: 0 15px 15px -5px rgba(0,0,0,0.1);
+			}
+			input[type=range]::-webkit-slider-thumb {
+				-webkit-appearance: none;
+				border: none;
+				height: 25px;
+				width: 25px;
+				border-radius: 50% 50% 50% 0;
+				transform: rotate(-45deg);
+				background: #34626a;
+				margin-top: -34px;
+				filter: drop-shadow(-10px 10px 10px rgba(0,0,0,0.2));
+			}
+			input[type=range]:focus {
+			  outline: none;
+			}
+			input[type=range]:focus::-webkit-slider-runnable-track {
+			  background: #000;
+			}
+
+			input[type=range]::-moz-range-track {
+			  width: 200px;
+			  height: 5px;
+			  background: #ddd;
+			  border: none;
+			  border-radius: 3px;
+			}
+			input[type=range]::-moz-range-thumb {
+			  border: none;
+			  height: 16px;
+			  width: 16px;
+			  border-radius: 50%;
+			  background: #34626a;
+				filter: drop-shadow(-10px 10px 10px rgba(0,0,0,0.2));
+			}
+			input[type=range]:-moz-focusring{
+			  outline: 1px solid white;
+			  outline-offset: -1px;
+			}
+
+			input[type=range]::-ms-track {
+			  width: 200px;
+			  height: 5px;
+			  background: transparent;
+			  border-color: transparent;
+			  border-width: 6px 0;
+			  color: transparent;
+			}
+
+			label {
+			  display:block;
+				width: 80px;
+			  margin:0 0 5px;
+				position: absolute;
+				position:absolute;
+				left:0;
+				right:0;
+				top: 80px;
+				margin: 0 auto;
+				box-shadow: 0 15px 15px -5px rgba(0,0,0,0.1);
+			}
+			label > span{
+			  display:block;
+			  margin:0 0 5px;
+			}
+			input[type="checkbox"]{
+			  display:none;
+			}
+			.csscheckbox{
+			  width:80px;
+			  height:36px;
+			  background:#34626a;
+			  color:#fff;
+			  line-height:36px;
+			  position:relative;
+				border-radius: 5px;
+				overflow: hidden;
+			}
+			.csscheckbox span{
+			  float:left;
+			  width:40px;
+			  text-align:center;
+			}
+			.csscheckbox div {
+			  background:#000;
+			  width:40px;
+			  height:36px;
+			  position:absolute;
+			  top:0;
+			  left:40px;
+				border-radius: 5px;
+
+			  -moz-transition:left 200ms ease-in;
+			  -webkit-transition:left 200ms ease-in;
+			  -o-transition:left 200ms ease-in;
+			  transition:left 200ms ease-in;
+			}
+			input[type="checkbox"]:checked + label .csscheckbox div {
+			  left:0;
+			}
+		</style>
+	</head>
+	<body>
+		<input type="range" id="slider" min="1" max="5" value="1"/>
+		<input type="checkbox" id="wireframe" checked>
+		<label for="wireframe">
+		  <div class="csscheckbox">
+		    <span>
+		      &#10006;
+		    </span>
+		    <span>
+		      &#10004;
+		    </span>
+		    <div>
+		    </div>
+		  </div>
+		</label>
+
+		<script>
+			document.title= window.location.pathname.split('/').pop();
+		</script>
+		<script src="threejs/three.min.js"></script>
+
+		<script>
+
+			var tri;
+			var container, stats;
+			var sMaterial;
+			var camera, cameraTarget, scene, renderer;
+			var bowlCount;
+			var bowls;
+			var wireframe = true;
+
+			var SCREEN_WIDTH = window.innerWidth;
+			var SCREEN_HEIGHT = window.innerHeight;
+
+			init();
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+
+			//--------------- CAMERA ---------------------//
+
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
+				camera.position.set( 70, 45, 0);
+
+				cameraTarget = new THREE.Vector3( 0, 0, 0 );
+				camera.lookAt(0,0,0)
+
+
+			//--------------- SCENE ---------------------//
+
+
+				scene = new THREE.Scene();
+
+
+			//--------------- RENDERER ---------------------//
+
+
+				renderer = new THREE.WebGLRenderer({ antialias:false, alpha:true });
+				renderer.shadowMap.enabled = true;
+				renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+				renderer.setClearColor( 0x68ffff, 1);
+
+				renderer.setPixelRatio(window.devicePixelRatio);
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				container.appendChild(renderer.domElement);
+
+
+			//--------------- LIGHTS ---------------------//
+
+
+				scene.add( new THREE.AmbientLight( 0x555566 ) );
+
+				var dLight	= new THREE.DirectionalLight( 0xffffff, 0.5 );
+
+				var d = 25;
+				dLight.shadow.camera.left = -d; // or whatever value works for the scale of the scene
+				dLight.shadow.camera.right = d;
+				dLight.shadow.camera.top = d;
+				dLight.shadow.camera.bottom = -d;
+				dLight.shadow.camera.near = 1;
+				dLight.shadow.camera.far = 1000;
+				dLight.shadow.camera.fov = 50;
+				dLight.shadow.bias = 0.0001;
+				dLight.shadow.mapSize.width = 512;
+				dLight.shadow.mapSize.height = 512;
+
+				dLight.castShadow = true;
+				dLight.shadow.darkness = 0.01;
+				dLight.position.set(50,150,60);
+				dLight.position.set(50,50,60);
+
+				dLight.target.position.set( 0, 0, 0 );
+
+				dLight.shadow.camera.position.set( 0, 140, -40 );
+				scene.add(dLight.target);
+
+				scene.add(dLight);
+
+
+
+			//--------------- MATERIALS ---------------------//
+
+
+				var material = new THREE.MeshPhongMaterial( {
+					color: 0x559999,
+					specular: 0x5500bb,
+					shininess: 350,
+					emissive: 0x22ff99,
+					emissiveMap: new THREE.TextureLoader().load('bowls.html-assets/bw-gradient2.png'),
+
+				});
+
+				sMaterial = new THREE.MeshStandardMaterial( {
+					shading: THREE.FlatShading,
+					wireframe:wireframe,
+					color: 0x555599,
+					emissiveMap: new THREE.TextureLoader().load('bowls.html-assets/bw-gradient2.png'),
+					emissive: 0x22ff99,
+				});
+
+
+				var basicMaterial = new THREE.MeshBasicMaterial({color: 0xffff00})
+
+
+			//--------------- OBJECTS ---------------------//
+
+				bowlCount = 19;
+				tri = 1;
+
+				createBowls(tri)
+
+				var planeGeo = new THREE.PlaneBufferGeometry( 1000, 1000 );
+				var plane = new THREE.Mesh(planeGeo, material);
+				plane.material.side = THREE.DoubleSide;
+				plane.rotation.set( -Math.PI/2, 0, 0 );
+				plane.position.set( 0, -bowlCount+1, 0 );
+				plane.receiveShadow = true;
+				scene.add( plane );
+
+
+
+			//--------------- EVENT LISTENERS --------------//
+
+				window.addEventListener( 'resize', onWindowResize, false )
+				document.getElementById('slider').addEventListener('change', updateTri);
+				document.getElementById('wireframe').addEventListener('change', updateWF);
+
+				animate();
+
+			}
+
+			//--------------- FNS -------------------------//
+
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function createBowls(tri) {
+				bowls = new THREE.Object3D();
+				for (var i=0; i<bowlCount; i++) {
+					var bowlGeo = new THREE.SphereBufferGeometry(5+i,2*(Math.pow(2,tri)),(Math.pow(2,tri)), 0, Math.PI*2,Math.PI/2,Math.PI);;
+
+					var bowl = new THREE.Mesh(bowlGeo, sMaterial);
+					bowl.rotation.y = Math.PI*i/8
+					bowl.material.side = THREE.DoubleSide;
+					bowl.castShadow = true;
+					bowl.receiveShadow = true;
+					bowl.geometry.verticesNeedUpdate = true;
+					bowls.add(bowl);
+					scene.add(bowls);
+				}
+			}
+
+			function updateTri(e){
+
+				tri = e.target.value;
+				scene.remove(bowls);
+
+				createBowls(tri)
+
+			}
+
+			function updateWF() {
+
+				sMaterial.wireframe = !sMaterial.wireframe;
+
+			}
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+				render();
+
+			}
+
+			function render() {
+
+				var timer = Date.now() * 0.005;
+
+				for (var i=0; i<bowls.children.length-1; i++) {
+					bowls.children[i].rotation.z = Math.PI * 0.25 * (Math.sin(timer + Math.PI*i/5)*0.5 -0.5) ;
+				}
+				camera.lookAt( cameraTarget );
+
+				renderer.render( scene, camera );
+
+			}
+
+		</script>
+	</body>
+</html>

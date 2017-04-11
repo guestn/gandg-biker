@@ -1,0 +1,160 @@
+@charset "utf-8";
+
+@font-face {
+  font-family: 'JaapokkiRegular';
+  src: url('fonts/JaapokkiRegular.eot');
+  src: url('fonts/JaapokkiRegular.eot') format('embedded-opentype'),
+       url('fonts/JaapokkiRegular.woff2') format('woff2'),
+       url('fonts/JaapokkiRegular.woff') format('woff'),
+       url('fonts/JaapokkiRegular.ttf') format('truetype'),
+       url('fonts/JaapokkiRegular.svg#JaapokkiRegular') format('svg');
+}
+
+$base-font-family: 'JaapokkiRegular', 'Big John', sans-serif;
+$base-font-size:   16px;
+$base-font-weight: 400;
+$small-font-size:  $base-font-size * 0.875;
+$base-line-height: 1.5;
+
+$spacing-unit:     30px;
+
+$text-color:       #111;
+$background-color: #fdfdfd;
+$hilite-color:     #ed5f32;
+
+$grey-color:       #828282;
+$grey-color-light: lighten($grey-color, 40%);
+$grey-color-dark:  darken($grey-color, 25%);
+
+$body-border: 20px;
+
+// Width of the content area
+$content-width:    800px;
+
+$mobile:        640px;
+$tablet:        800px;
+
+$test: 0px;
+
+html {
+	height:100%;
+	width:100%;
+	overflow-x: hidden;
+}
+
+body {
+	position: relative;
+	width:100%;
+	margin: 0;
+	font-family: $base-font-family;
+	background-image: linear-gradient(#ded2d8, #9cbeca 30%);
+	margin: 0px;
+	overflow: hidden;
+	height: 100%;
+	transform-style: preserve-3d;
+	perspective: 1000px;
+}
+
+// general //
+
+a {
+	text-decoration: none;
+}
+
+
+h1 {
+	position: absolute;
+	left: 0;
+	top: 20vh;
+	left: 60px;
+	width: 150%;
+	max-width: none;
+	font-size: 14vw;
+	text-transform: uppercase;
+	color: white;
+	z-index: 100;
+	opacity: 0.8;
+	transform: rotateY(-20deg) translateZ(200px);
+	opacity: 0;
+	pointer-events: none;
+	@media (max-width:$mobile) {
+		top: 10vh;
+		left: 80px;
+		font-size: 22vw;
+		width: 100%;
+		line-height: 0.9
+	}
+}
+
+p {
+	margin-bottom: 1em;
+}
+
+.white {
+	color: #fff;
+}
+
+
+#progressScreen {
+	width: 100vw;
+	height: 100vh;
+	z-index: 300;
+	position: fixed;
+	padding: 20px;
+	top:0;
+	left:0;
+	background: black;
+	display:flex;
+	align-items: center;
+	justify-content: center;
+	> div {
+		width: 100px;
+		height: 15px;
+		background: white;
+		border: none;
+		//border-radius: 10px;
+		transform: skewX(30deg);
+	}
+}
+
+// loaded transitions //
+
+body.loaded {
+	#progressScreen {
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 2s, visibility 0.1s linear 2s;
+	}
+	
+	h1 {
+		opacity: 0.9;
+		transition: opacity 2s linear 3s;
+	}
+	
+}
+
+// menu-active transitions //
+
+
+body.menu-active {
+	h1 {
+		opacity: 0;
+		transition: opacity 0.5s linear;
+	}
+}
+
+.content-container {
+  position: absolute;
+  background: transparent;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
+a {
+	display: block;
+}
+p a {
+	display: inline-block;
+}

@@ -1,0 +1,104 @@
+<html>
+<head>
+	<title>Popup Mountains</title>
+	<link href="popup.html-assets/style.css" rel="stylesheet" type="text/css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.js"></script></head>
+<body>
+
+<div class="container" id="container-index">
+	
+	<div id="pictureframe">
+			<div class="introtxt" id="introtxt"><h1>Create something big.</h1></div>
+			<div class="introtxt" id="introtxt2"><h2>Take your web and brand presence to new heights with guest+guest!</h2></div>
+			<div class="mountains" id="mountains"><img src='popup.html-assets/mountains.svg' alt="mountains"/></div>
+			
+			<div class="mountains" id="mountains2"><img src='popup.html-assets/mountains2.svg'/>
+				<div class="mountains-fold" id="mountains-fold-2"></div>
+				<div class="mountains-shadow" id="mountains-shadow-2"><img src='popup.html-assets/mountains-shadow2.svg' alt="mountains2"/></div>
+			</div>
+			
+			<div class="mountains" id="mountains3"><img src='popup.html-assets/mountains3.svg'/>
+				<div class="mountains-fold" id="mountains-fold-3"></div>
+				<div class="mountains-shadow" id="mountains-shadow-3"><img src='popup.html-assets/mountains-shadow3.svg'/></div>
+			</div>
+				
+
+			<div class="mountains-fold" id="mountains-fold-1">
+				<div id="pulltab">
+					<i class="icon-down-open" style="position:absolute; bottom: 10px;"></i>
+					<i class="icon-up-open" style="position:absolute; bottom: 40px;"></i>
+				</div>
+			</div>
+			
+			<div id="mountains-shadow-cont">
+				<div id="mountains-shadow"><img src='popup.html-assets/mountains-shadow.svg'/></div>
+			</div>
+			
+	</div><!--close '#pictureframe'-->
+		
+
+	
+</div><!--close '.container'-->
+
+		<div id="birdframe">
+		  <div id="bird">
+		    <div id="body2"></div>
+		    <div id="body1"></div>
+		    <div id="wing-l"></div>  
+		    <div id="wing-r"></div>  
+		  </div>
+		  <div id="shadow"></div>
+		</div>
+
+
+<script>
+
+function mountainpop() { 
+		$('#mountains, #pulltab').toggleClass('popped');
+		$('#mountains-shadow').toggleClass('grow');
+		$('#introtxt').delay(1500).fadeIn(500);//toggleClass('display');
+		setTimeout(function(){$('#introtxt2').toggleClass('display')}, 3500)	;
+};
+
+
+//$(document).ready(function(){
+
+$(window).load(function(){
+	$('.dismiss').on('click', function(){
+			$('#warning').fadeOut(300);
+		
+	});
+	
+	
+	bodyheight= $(window).height() || window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+	$('#container-index').css('height',bodyheight-140);
+	var picframe_h=$('#pictureframe').height();
+	$('#container-index').css('margin-top',(bodyheight-picframe_h-400)/2);
+
+
+	$( window ).resize(function() {
+
+		bodyheight= $(window).height() || window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+		console.log(" x "+bodyheight);
+	//alert('resize');
+		
+		$('#container-index').css('height',bodyheight-100);
+
+	});
+
+
+	$('.spinner').fadeOut(1000); //fadeout white when ready
+	setTimeout(mountainpop, 2000); //popup
+
+
+	$('.popit, #pulltab').on('click',function(){
+		mountainpop();
+	});
+
+});
+</script>
+
+</body>
+</html>

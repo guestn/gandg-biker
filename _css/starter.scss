@@ -1,0 +1,81 @@
+//******************//
+// starter-page     //
+//******************//
+
+.starter-container {
+	position: absolute;
+	top:0;
+	left: 0;
+	width: 100%;
+	height: 50%;
+	display: block;
+/*
+	align-items: center;
+	justify-content: center;
+*/
+	transform: translateX(120%);
+	//@include transitionIn;
+	
+
+
+	//transform-style: preserve-3d;
+/*
+  perspective: 400px;
+  perspective-origin: 40% 50%;
+*/
+	border: $test solid orange;
+
+}
+
+.active-starter .starter-container {
+	transform: translateX(0);
+}
+
+
+
+.flame {
+//	position: absolute;
+	position: relative;
+	margin: 0 auto;
+	left: 000px;
+	top: 20px;
+	width: 400px;
+  height: 400px;
+  background-image: url(videos/sprite-32.png);
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  animation: play 2s steps(20) infinite;
+}
+
+@keyframes play {
+	0% { background-position-y: 0%; }
+// 	100% { background-position-y: -10800px }
+		100% { background-position-y: -8000px }
+
+}
+
+.starter-container h2 {
+	font-size: 2em;
+	text-align: center;
+	position: absolute;
+	left:50%;
+	transform: translateX(-50%);
+	top:300px;
+	width: 90%;
+	max-width: 300px;
+	z-index: 50;
+	pointer-events: none;
+	background: -webkit-radial-gradient(transparent, transparent),-webkit-radial-gradient(top, $hilite-color 0%, white 50%, white 100%);
+	background: -o-linear-gradient(transparent, transparent);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: flicker 1s linear infinite;
+}
+
+@keyframes flicker {
+	0%,100% {background-position: 50% 50%}
+	10% {background-position: 30% 55%}
+	16% {background-position: 42% 30%}
+	40% {background-position: 60% 30%}
+}
+

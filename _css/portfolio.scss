@@ -1,0 +1,135 @@
+//******************//
+// gallery-page     //
+//******************//
+
+.portfolio-container {
+	position: absolute;
+	top:0;
+	left: 0;
+	width: 100%;
+	padding-top: 7.5%;
+	height: 60%;
+	transform-style: preserve-3d;
+  perspective: 400px;
+  perspective-origin: 40% 50%;
+	border: $test solid orange;
+	transform: translateY(-150%);
+	@include transitionIn;
+	opacity: 0;
+}
+
+.active-portfolio .portfolio-container {
+	transform: translateY(0);
+	opacity: 1;
+}
+
+#portfolio {
+  position: relative;
+  left: -10%;
+  transform-origin:70% 0;
+  transform: rotateY(-30deg) translateX(0);
+  width:100%;
+  height:250px;
+  transition: all 0.5s ease-in;
+  transform-style: preserve-3d;
+  will-change: transform;
+  
+  @for $i from 1 through 5 {
+    &.active-#{$i} {
+      transform: rotateY(-30deg) translateX(#{(5-$i)*12%});
+    }
+  }
+  
+  figure {
+	  display: inline-block;
+	  width: 18%;
+	  padding:0;
+	  margin: 0;
+	  border-left: 10px solid transparent;
+	  transition: all 1s ease;
+	  opacity: 0.5;
+	  box-shadow: 0 100px 100px -30px black;
+	  cursor: pointer;
+	
+	
+	  @for $i from 1 through 5 {
+	    &:nth-child(#{$i}) {
+	      $r1: random(30)-25;
+	      $r2: random(20)-15;
+	      transform: rotateY(#{$r1}deg) skewY(#{$r2}deg);
+	    }
+	  }
+	  
+	  img {
+	    display: block;
+	    width: 100%;
+	    box-shadow: 0 0 20px 10px rgba(255,255,255,0.1);
+	  }
+	  
+	  h4 {
+	    position: absolute;
+	    top: 110%;
+	    color: white;
+	    font-size: 3em;
+	    line-height: 1;
+	    opacity: 0.2
+	  }
+	  
+	  &.active {
+	    transform: rotateY(30deg) skewY(0deg);
+	    opacity: 1;
+	    border-left: 10px solid white;
+	    h4 {
+	      opacity: 1;
+	    }
+	  }
+	  figcaption {
+			display: none;
+		}
+	}
+	@media (max-width: $mobile) {
+		h4 {
+			font-size: 2em;
+		}
+	}
+
+}
+
+
+#article-content {
+  width: 100%;
+  max-width: 500px;
+ // border: 1px solid white;
+  margin: 10% auto;
+  color: white;
+  p {
+	  line-height: 1.5;
+	  margin-bottom: 2em;
+	  opacity: 0.7;
+  }
+  a {
+	  color:#ed5f32;
+  }
+  
+}
+
+#side-projects {
+	position: absolute;
+	top:20px;
+	left:5px;
+	transform: rotateY(10deg);
+  transform-origin: 0 0;
+	a:nth-child(1) {
+		text-transform: uppercase;
+		font-size: 1.5em;
+		//color: white;
+	}
+	a:nth-child(2),
+	a:nth-child(3) {
+		display: inline-block;
+	}
+	
+	@media (max-width: $mobile) {
+		top: 200px;
+	}
+}
