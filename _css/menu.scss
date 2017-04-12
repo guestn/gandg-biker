@@ -110,24 +110,26 @@ $menuAnimDuration : 1s;
 
 .nav-menu {
 	position: absolute;
-	right: 8%;
-	bottom: 12%;
+	right: 0%;
+	bottom: 0%;
 	font-size: 2.25em;
 	text-transform: uppercase;
 	text-align: right;
 	transform-style: preserve-3d;
 	perspective: 700px;
+	perspective-origin: 50% 20%;
 	width:auto;
 	display:inline-block;
 	opacity: 0;
 	transition: all 1.5s linear 0.5s;
+	z-index: 400;
 	
 	a {
 		display: block;
 		color:white;
 		line-height: 0.8;
 		transform-origin: 100% 50%;
-		transform: rotateY(-30deg) translateZ(200px);
+		transform: rotateY(-10deg) translateZ(0px);
 		
 		&:nth-child(2) {
 			opacity: 0.8;
@@ -136,16 +138,24 @@ $menuAnimDuration : 1s;
 			opacity: 0.6;
 		}
 	}
-	@media (max-width: $mobile){
-		right: -2.5em;
-		bottom: 12%;
-		font-size: 1.0em;
+	@media (max-height: 600px) {
+		font-size: 1.65em;
+	}
+	
+	@media (max-width: $mobile) AND (max-height: 660px){
+		right: 0em;
+		bottom: 0%;
+		font-size: 1.25em;
 		max-width: calc(100% - 80px);
 		a {
 			line-height: 1;
-			transform: rotateY(-30deg) translateZ(200px);
-
 		}
+	}
+	
+}
+@-moz-document url-prefix() {
+	.nav-menu {
+		transform-style: flat;
 	}
 }
 

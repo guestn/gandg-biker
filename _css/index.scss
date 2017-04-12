@@ -117,6 +117,14 @@ p.white {
 	}
 }
 
+.site-link {
+	position: absolute;
+	bottom: 40px;
+	right: 40px;
+	z-index: 50;
+	width: 64px;
+}
+
 // loaded transitions //
 
 body.loaded {
@@ -131,6 +139,12 @@ body.loaded {
 		transition: opacity 2s linear 3s;
 	}
 	
+	.site-link {
+		opacity: 1;
+		transition: opacity 2s linear 1s;
+
+	}
+	
 }
 
 // menu-active transitions //
@@ -140,6 +154,11 @@ body.menu-active {
 	h1 {
 		opacity: 0;
 		transition: opacity 0.5s linear;
+	}
+	.site-link {
+		opacity: 0;
+		transition: opacity 0.5s linear 1s;
+
 	}
 }
 

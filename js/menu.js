@@ -45,10 +45,10 @@ menuButton.addEventListener('click', onMenuButtonClick)
 
 function onMenuButtonClick() {
 	if (menuActive) {
-			menuMorphing.play();
-		 menuMorphing.reverse() 
+		menuMorphing.play();
+		menuMorphing.reverse() 
 	} else {
-			menuMorphing.play();
+		menuMorphing.play();
 	}
 	
 	menuMorphing.complete = function() { 

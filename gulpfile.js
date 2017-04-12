@@ -61,7 +61,7 @@ gulp.task('scripts', function() {
     gulp.src(jsFiles)
     .pipe(order(jsFiles, { base: './' }))
     .pipe(concat('scripts.js'))
-    // .pipe(stripdebug()) // ----> remove console.logs
+    .pipe(stripdebug()) // ----> remove console.logs
 
     .pipe(gulp.dest(jsDest))
 
