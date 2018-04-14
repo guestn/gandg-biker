@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Check You Out</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+				cursor:all-scroll;
+			}
+
+			#pan {
+				position:absolute;
+				bottom: 20px;
+				left: 20px;
+				background:#999;
+				color:#eee;
+				padding:0.2em 0.5em;
+				opacity: 0;
+			}
+			label[for="pan"] {
+				position: absolute;
+				bottom: 20px;
+				left: 20px;
+				border: 2px solid white;
+				padding: 15px 20px;
+				color: white;
+				cursor:pointer;
+			}
+
+		</style>
+	</head>
+	<body>
+		<script>
+			document.title= window.location.pathname.split('/').pop();
+		</script>
+		<script src="threejs/three.min.js"></script>
+		<script src="threejs/OrbitControls.js"></script>
+		<script src="threejs/SubdivisionModifier.js"></script>
+		<script src="threejs/OBJLoader.js"></script>
+		<script src="threejs/MTLLoader.js"></script>
+		<script src="threejs/BufferGeometryUtils.js"></script>
+
+
+		<script src="threejs/EffectComposer84.js"></script>
+		<script src="threejs/RenderPass84.js"></script>
+		<script src="threejs/ShaderPass84.js"></script>
+		<script src="threejs/SavePass84.js"></script>
+
+		<script src="threejs/VignetteShader.js"></script>
+
+		<script src="threejs/NGGrainShader.js"></script>
+		<script src="threejs/NGGrainPass.js"></script>
+
+
+		<script src="threejs/CopyShader.js"></script>
+
+		<!-- custom shaders -->
+
+		<script type="x-shader/x-vertex" id="sphere-vs">
+
+		void main() {
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+		}
+
+		</script>
+
+		<script type="x-shader/x-vertex" id="sphere-fs">
+
+		uniform vec2 resolution;
+		uniform float noise;
+
+		#define VIG_REDUCTION_POWER 1.5
+		#define VIG_BOOST 6.1
+
+		float random(vec3 scale,float seed){return fract(sin(dot(gl_FragCoord.xyz+seed,scale))*43758.5453+seed);}
+
+		void main() {
+
+			vec3 color = vec3( 25./255. );
+			vec2 center = resolution * 0.5;
+			float vignette = distance( center, gl_FragCoord.xy ) / resolution.x;
+			vignette = VIG_BOOST - vignette * VIG_REDUCTION_POWER;
+
+			float n = 0.1 * ( .5 - random( vec3( 1. ), length( gl_FragCoord ) ) );
+
+			gl_FragColor = vec4( color * vec3( vignette ) + vec3( n ), 1. );
+
+		}
+
+		</script>
+
+			<script type="x-shader/x-vertex" id="vertexShader">
+
+				attribute vec4 tangent;
+
+				uniform float time;
+				uniform vec2 repeat;
+				uniform float useNormal;
+				uniform float useRim;
+
+				varying vec2 vUv;
+				varying vec3 vTangent;
+				varying vec3 vBinormal;
+				varying vec3 vNormal;
+				varying vec3 vEye;
+				varying vec3 vU;
+				varying vec2 vN;
+
+				void main() {
+
+					vU = normalize( vec3( modelViewMatrix * vec4( position, 1.0 ) ) );
+
+					if( useNormal == 0. ) {
+						vec3 n = normalize( normalMatrix * normal );
+						vec3 r = reflect( vU, n );
+						float m = 2.0 * sqrt( r.x * r.x + r.y * r.y + ( r.z + 1.0 ) * ( r.z+1.0 ) );
+						vN = vec2( r.x / m + 0.5,  r.y / m + 0.5 );
+					} else {
+						vN = vec2( 0. );
+					}
+
+					vUv = repeat * uv;
+					gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+					vNormal = normalize( normalMatrix * normal );
+
+					if( useNormal > 0. ) {
+						vTangent = normalize( normalMatrix * tangent.xyz );
+						vBinormal = normalize( cross( vNormal, vTangent ) * tangent.w );
+					} else {
+						vTangent = vec3( 0. );
+						vBinormal = vec3( 0. );
+					}
+
+					if( useRim > 0. ) {
+						vEye = ( modelViewMatrix * vec4( position, 1.0 ) ).xyz;
+					} else {
+						vEye = vec3( 0. );
+					}
+
+				}
+
+				</script>
+
+				<script type="x-shader/x-vertex" id="fragmentShader">
+
+				uniform float time;
+				uniform sampler2D tNormal;
+				uniform sampler2D tMatCap;
+				uniform sampler2D tDiffuse;
+				uniform float noise;
+				uniform float useNormal;
+				uniform float useDiffuse;
+				uniform float useRim;
+				uniform float rimPower;
+				uniform float useScreen;
+				uniform float normalScale;
+				uniform float normalRepeat;
+				uniform float shininess;
+				uniform vec2 dTile;
+
+				varying vec2 vUv;
+				varying vec3 vTangent;
+				varying vec3 vBinormal;
+				varying vec3 vNormal;
+				varying vec3 vEye;
+				varying vec3 vU;
+				varying vec2 vN;
+
+				float random(vec3 scale,float seed){return fract(sin(dot(gl_FragCoord.xyz+seed,scale))*43758.5453+seed);}
+
+				void main() {
+
+					vec3 finalNormal = vNormal;
+					vec2 calculatedNormal;
+
+					if ( useNormal > 0. ) {
+
+						vec2 nTile = vec2(.5,1.);
+	          vec2 nPhase = fract(vUv.xy / nTile);
+	          //vec3 diffuse = texture2D( tDiffuse, (vUv+0.5)*4.).xyz *2. -1.;
+	         // vec3 diffuse = texture2D( tDiffuse, phase).xyz * 2. -1.;
+
+						vec3 normalTex = texture2D( tNormal, nPhase ).xyz * 2.0 - 1.0;
+
+						//vec3 normalTex = texture2D( tNormal, vUv * normalRepeat ).xyz * 2.0 - 1.0;
+						normalTex.xy *= normalScale;
+						normalTex.y *= -1.;
+						normalTex = normalize( normalTex );
+						mat3 tsb = mat3( normalize( vTangent ), normalize( vBinormal ), normalize( vNormal ) );
+						finalNormal = tsb * normalTex;
+
+						vec3 r = reflect( vU, normalize( finalNormal ) );
+						float m = 2.0 * sqrt( r.x * r.x + r.y * r.y + ( r.z + 1.0 ) * ( r.z + 1.0 ) );
+						calculatedNormal = vec2( r.x / m + 0.5,  r.y / m + 0.5 );
+					} else {
+						vec2 calculatedNormal = vN;
+					}
+
+					vec3 base = texture2D( tMatCap, calculatedNormal ).rgb;
+
+					// rim lighting
+
+					if( useRim > 0. ) {
+						float f = rimPower * abs( dot( vNormal, normalize( vEye ) ) );
+						f = useRim * ( 1. - smoothstep( 0.0, 1., f ) );
+				        base += vec3( f );
+				    }
+
+				    // screen blending
+
+			    if( useScreen == 1. ) {
+						base = vec3( 1. ) - ( vec3( 1. ) - base ) * ( vec3( 1. ) - base );
+					}
+
+			     // noise
+
+	        base += noise * ( .5 - random( vec3( 1. ), length( gl_FragCoord ) ) );
+
+	        if (useDiffuse > 0.) {
+	          // repeat tne texture
+	          vec2 tile = vec2(0.5,1.);
+	          vec2 phase = fract(vUv.xy / dTile);
+	          //vec3 diffuse = texture2D( tDiffuse, (vUv+0.5)*4.).xyz *2. -1.;
+	          vec3 diffuse = texture2D( tDiffuse, phase).xyz * 2. -1.;
+
+	          diffuse = normalize(diffuse);
+	          base = diffuse * (1. - shininess) + base * shininess;
+	        }
+	        //float polar = 2. * sqrt(abs(vUv.x * vUv.x) + abs(vUv.y * vUv.y));
+	       // make fade to white outside circle
+	        // if ( polar > 0.4) {
+	        //   base = vec3(1.,1.,1.) * ( 10. * polar - 4.) + base * (-10. * polar + 5.0);
+	        // }
+
+	        gl_FragColor = vec4( base, 1. );
+
+
+				}
+
+				</script>
+
+
+
+		<!-- end custom shaders -->
+
+		<script>
+
+			var controls;
+			var container, stats;
+			var eye, seaGeo;
+			var tentacleHelper;
+			var dLight;
+			var eyeMaterial, sphereMaterial, tentacleMaterial;
+			var camera, cameraTarget, scene, renderer;
+			var renderNoise = .04;
+			var devMode = false;
+			var timer = 0;
+
+
+			var SCREEN_WIDTH = window.innerWidth;
+			var SCREEN_HEIGHT = window.innerHeight;
+			var mouseX = 0, mouseY = 0;
+
+
+			init()
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+
+			//--------------- CAMERA ---------------------//
+
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+				camera.position.set( 10, 2, 50 );
+
+				cameraTarget = new THREE.Vector3( 0, 0, 0 );
+
+			//--------------- SCENE ---------------------//
+
+
+				scene = new THREE.Scene();
+				scene.fog = new THREE.Fog( 0x227755, 2, 100 );
+
+
+			//--------------- RENDERER ---------------------//
+
+
+				renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: true  });
+
+				renderer.setClearColor( 0x55aa99, 1);
+
+				renderer.shadowMap.enabled = true;
+
+
+				renderer.setPixelRatio(window.devicePixelRatio);
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				container.appendChild(renderer.domElement);
+
+
+			//--------------- LIGHTS ---------------------//
+
+				var light = new THREE.DirectionalLight( 0xffffff, 1, 100 );
+				light.position.set( 1, 5, -2);
+
+				light.castShadow = true;            // default false
+				//scene.add( light );
+
+				dLight	= new THREE.DirectionalLight( 0xffffff, 0.8 );
+
+				var d = 400;
+				dLight.shadow.camera.left = -d; // or whatever value works for the scale of your scene
+				dLight.shadow.camera.right = d;
+				dLight.shadow.camera.top = d;
+				dLight.shadow.camera.bottom = -d;
+				dLight.shadow.camera.near = 1;
+				dLight.shadow.camera.far = 1000;
+				dLight.shadow.camera.fov = 50;
+				dLight.shadow.bias = 0.0001;
+				dLight.shadow.mapSize.width = 1024;
+				dLight.shadow.mapSize.height = 1024;
+
+				dLight.castShadow = true;
+				dLight.position.set(0, 100, -40 );
+				dLight.target.position.set( 0, 0, 0 );
+
+				dLight.shadow.camera.position.set( 0, 100, -40 );
+				scene.add(dLight.target);
+
+				scene.add(dLight);
+				if (devMode) {
+					var helper = new THREE.CameraHelper( dLight.shadow.camera );
+					scene.add( helper );
+			 	}
+
+
+			//--------------- MATERIALS ---------------------//
+
+				var textureLoader = new THREE.TextureLoader();
+
+				var basicMaterial = new THREE.MeshBasicMaterial({color: 0x448878})
+
+				tentacleMaterial = new THREE.MeshPhongMaterial({
+					//color: 0x448878,
+					shininess: 100,
+					skinning:true,
+					map: textureLoader.load('eyes.html-assets/snail-skin2.jpg', function(map){
+						map.wrapS = map.wrapT = THREE.RepeatWrapping
+					}),
+					bumpMap: textureLoader.load('eyes.html-assets/snail-skin2.jpg', function(map){
+						map.wrapS = map.wrapT = THREE.RepeatWrapping
+					}),
+					side: THREE.DoubleSide
+				})
+
+				var seaMaterial = new THREE.MeshPhongMaterial( {
+					//shading: THREE.FlatShading,
+					color: 0x55aa99,
+					specular: 0xff5511,
+					shininess: 100,
+					transparent:true,
+			//		opacity:0.7,
+					alphaMap: textureLoader.load('eyes.html-assets/seamless-perlin-noise.jpg')
+					//emissive: 0xaaaaaa
+				});
+
+				var seaBottomMaterial = new THREE.MeshPhongMaterial( {
+					//shading: THREE.FlatShading,
+					color: 0x55aa99,
+					specular: 0xff1111,
+					shininess: 0,
+					transparent:true,
+					opacity:0.8,
+					//emissive: 0xaaaaaa
+				});
+
+				eyeMaterial = new THREE.ShaderMaterial( {
+					uniforms: {
+						'tNormal': { type: 't', value:textureLoader.load('eyes.html-assets/eyeNormal2.png')},
+						'tMatCap': { type: 't', value: textureLoader.load('eyes.html-assets/vshinyplastic-greeny-matcap.png')},
+						'tDiffuse': { type: 't', value: textureLoader.load('eyes.html-assets/eyeDiffuse2.png')},
+						'noise': { type: 'f', value: .04 },
+						'repeat': { type: 'v2', value: new THREE.Vector2( 1, 1 ) },
+						'dTile': { type: 'v2', value: new THREE.Vector2(0.5,1.) },
+						'useNormal': { type: 'f', value: 1. },
+						'useDiffuse': { type: 'f', value: 1. },
+						'useRim': { type: 'f', value: 1. },
+						'rimPower': { type: 'f', value: 100 },
+						'useScreen': { type: 'f', value: 1. },
+						'normalScale': { type: 'f', value: 10. },
+						'normalRepeat': { type: 'f', value: 1. },
+						'shininess' : { type: 'f', value: 0.5 },
+					},
+					vertexShader: document.getElementById( 'vertexShader' ).textContent,
+					fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+					//side: THREE.DoubleSide,
+					shading: THREE.SmoothShading,
+
+				});
+
+				eyeMaterial.uniforms.tNormal.value.needsUpdate = true;
+
+	///////////
+
+
+
+				// make the surrounding sphere material:
+
+				sphereMaterial = new THREE.ShaderMaterial( {
+
+					uniforms: {
+						resolution: { type: 'v2', value: new THREE.Vector2( 0, 0 ) },
+						noise: { type: 'f', value: 1.5 }
+					},
+					vertexShader: document.getElementById( 'sphere-vs' ).textContent,
+					fragmentShader: document.getElementById( 'sphere-fs' ).textContent,
+					side: THREE.DoubleSide
+
+				} );
+				sphereMaterial.uniforms.resolution.value.set( 1 * window.innerWidth, 1 * window.innerHeight );
+
+
+			//--------------- OBJECTS ---------------------/
+
+
+				// make the surrounding sphere:
+
+				var geometry = new THREE.SphereBufferGeometry( 1000, 5,5 )
+				var sphere = new THREE.Mesh( geometry, sphereMaterial );
+
+				//scene.add( sphere );
+
+				var geometry = new THREE.PlaneBufferGeometry(1000,1000);
+				var ground = new THREE.Mesh(geometry, basicMaterial)
+				ground.material.side= THREE.DoubleSide;
+				ground.rotation.set(-Math.PI/2, 0, 0)
+				ground.position.set(0,-8.2,0)
+				//scene.add(ground)
+
+				var seaScale = 300;
+				seaGeo = new THREE.PlaneGeometry( 1, 1, 20,20);
+				for (var i=0; i < seaGeo.vertices.length; i++) {
+					seaGeo.vertices[i].z = getRandom(-0.005,0.005)
+
+					seaGeo.vertices[i].y = seaGeo.vertices[i].y + getRandom(-0.015,0.015)
+					seaGeo.vertices[i].x = seaGeo.vertices[i].x + getRandom(-0.015,0.015)
+					seaGeo.vertices[i].phase = Math.random() * 2 * Math.PI
+				}
+				var sea = new THREE.Mesh(seaGeo, seaMaterial);
+				seaGeo.uvsNeedUpdate = true;
+				sea.material.side = THREE.DoubleSide;
+				sea.rotation.set( -Math.PI/2, Math.PI, 0 );
+				sea.position.set( 0, -6, 0 );
+				sea.scale.setScalar(seaScale)
+				sea.receiveShadow = true;
+				scene.add(sea)
+
+				var sea2 = new THREE.Mesh(seaGeo.clone(), seaMaterial);
+				sea2.material.side = THREE.DoubleSide;
+				sea2.rotation.set( -Math.PI/2, 0, 0 );
+				sea2.position.set( 0, -6.5, 0 );
+				sea2.scale.setScalar(seaScale)
+				scene.add(sea2)
+
+				var sea3 = new THREE.Mesh(seaGeo.clone(), seaMaterial);
+				sea3.material.side = THREE.DoubleSide;
+				sea3.rotation.set( -Math.PI/2, 0, 0 );
+				sea3.position.set( 0, -7, 0 );
+				sea3.scale.setScalar(seaScale)
+				scene.add(sea3)
+
+				var seaBottom = new THREE.Mesh(seaGeo.clone(), seaBottomMaterial);
+				seaBottom.material.side = THREE.DoubleSide;
+				seaBottom.rotation.set( -Math.PI/2, 0, 0 );
+				seaBottom.position.set( 0, -8, 0 );
+				seaBottom.scale.setScalar(seaScale)
+				scene.add(seaBottom)
+				//
+
+
+
+				//add some stuff to bone prototype to allow attachment of another mesh (eye)
+				var update = THREE.Bone.prototype.update;
+					THREE.Bone.prototype.update = function(parentSkinMatrix, forceUpdate) {
+					update.call(this, parentSkinMatrix, forceUpdate);
+					this.updateMatrixWorld( true );
+				};
+				THREE.Object3D.prototype.update = function() {};
+
+				//
+
+				var tentacleCount = 10;
+
+				var loader = new THREE.JSONLoader();
+
+				loader.load('eyes.html-assets/eye-tentacle.json',function(geometry) {
+
+					for (var i=0; i<tentacleCount; i++) {
+
+						var randomScale = 1 + 0.8*Math.random();
+
+						var tentacle = new THREE.SkinnedMesh(geometry, tentacleMaterial)
+						tentacle.phase = Math.random() * 2 * Math.PI;
+						tentacle.position.set((tentacleCount/2-i-1)*6, -(1-randomScale)*8.2, -20*(Math.random()))
+						tentacle.scale.setScalar(randomScale)
+						tentacle.castShadow = true;
+						scene.add(tentacle);
+
+						tentacleHelper = new THREE.SkeletonHelper( tentacle );
+
+						var eyeGeometry = new THREE.SphereBufferGeometry( 1.02, 35,35 );
+						THREE.BufferGeometryUtils.computeTangents(eyeGeometry)
+						var eye = new THREE.Mesh( eyeGeometry, eyeMaterial );
+						eye.position.set(0,0,0)
+						scene.add( eye );
+
+						var bone = tentacle.skeleton.bones[3];
+						bone.add(eye);
+
+
+
+					}
+					setupGrain()
+					animate();
+
+				})
+
+
+
+				//--------------- STATS ---------------------//
+
+					if (devMode) {
+						stats = new Stats();
+						stats.domElement.style.position = 'absolute';
+						stats.domElement.style.top = '0px';
+						container.appendChild( stats.domElement );
+					}
+
+
+			//--------------- CONTROLS ---------------------//
+
+					controls = new THREE.OrbitControls( camera );
+					controls.maxDistance = 50
+					controls.minPolarAngle = 0;//Math.PI/2
+
+					controls.maxPolarAngle = Math.PI/2.1
+					controls.zoomSpeed = 0.1
+					controls.rotateSpeed = 0.25
+
+
+			//--------------- EVENT LISTENERS --------------//
+
+					window.addEventListener( 'resize', onWindowResize, false )
+					window.addEventListener( 'mousemove', onDocumentMouseMove, false )
+					controls.addEventListener( 'change', render );
+
+				}
+
+			//--------------- FNS -------------------------//
+
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function onDocumentMouseMove(event) {
+
+				mouseX = ( event.clientX - SCREEN_WIDTH/2 )/SCREEN_WIDTH;
+				mouseY = ( event.clientY - SCREEN_HEIGHT/2 )/SCREEN_HEIGHT;
+
+			}
+
+			function setNoise(n) {
+
+				eyeMaterial.uniforms.noise.value = sphereMaterial.uniforms.noise.value = n;
+
+			}
+
+			function setupGrain() {
+				composer = new THREE.EffectComposer( renderer );
+				composer.setSize( window.innerWidth*1.5, window.innerHeight*1.5 )
+				composer.addPass( new THREE.RenderPass( scene, camera ) );
+
+
+				var shaderVignette = THREE.VignetteShader;
+				var grainShader = THREE.GrainShader;
+				var effectVignette = new THREE.ShaderPass( shaderVignette );
+				var effectFilm = new THREE.GrainPass( 1.0, 0.05, 256, false );
+
+
+				composer.addPass(effectFilm);
+
+				//larger values = darker closer to center
+			//	darkness < 1  => lighter edges
+				effectVignette.uniforms[ "offset" ].value = 1;
+				effectVignette.uniforms[ "darkness" ].value = 1.5;
+				effectVignette.renderToScreen = true;
+
+				composer.addPass(effectVignette);
+				effectVignette.renderToScreen = true;
+				shaderActive = "vignette";
+			}
+
+			function getRandom(min, max) {
+				return (Math.random() * (max - min)) + min;
+			}
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+				render();
+				devMode ? stats.update() : null;
+
+			}
+
+			function render() {
+
+				timer++;
+
+				setNoise( renderNoise );
+
+				scene.traverse(function(tentacle){
+            if (tentacle instanceof THREE.SkinnedMesh){
+							//console.log(tentacle.phase)
+							tentacle.skeleton.bones[0].rotation.z = -0.15 * Math.sin(timer *0.01 + tentacle.phase)// + tentacle.geometry.phase);
+							tentacle.skeleton.bones[2].position.x = -0.5 * Math.sin(timer *0.01 + tentacle.phase);
+							tentacle.skeleton.bones[2].position.z = 0.1 * Math.sin(timer *0.02 + tentacle.phase);
+							tentacle.skeleton.bones[2].rotation.y = mouseX * 1.5
+							tentacle.skeleton.bones[2].rotation.x = mouseY* 1.5
+
+            }
+            else if  (tentacle instanceof THREE.SkeletonHelper) {
+							if (devMode) tentacle.update();
+            }
+        });
+
+				for (var i=0; i<seaGeo.vertices.length; i++) {
+
+					seaGeo.vertices[i].z = seaGeo.vertices[i].z + 0.00005* Math.sin(timer *0.01 +seaGeo.vertices[i].phase);
+					seaGeo.verticesNeedUpdate =true;
+				}
+
+				dLight.position.x = mouseX *50;
+				dLight.position.z = (mouseY-0.25) *150;
+
+
+
+				tentacleHelper.update();
+
+
+				camera.lookAt( cameraTarget );
+
+				//renderer.render( scene, camera );
+				composer.render();
+
+
+			}
+
+		</script>
+
+	</body>
+</html>

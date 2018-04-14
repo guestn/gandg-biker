@@ -1,0 +1,497 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<script type="text/javascript">
+
+</script>
+<style>
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+	}
+	body {
+		color: #eee;
+		text-shadow: 0 -1px 0 rgba( 0, 0, 0, .6 );
+		font-family: 'Open Sans', sans-serif;
+		font-size: 13px;
+		line-height: 16px;
+		overflow: hidden;
+		width: 100%;
+	}
+	#viewport {
+		-webkit-perspective: 1000;
+		-moz-perspective: 1000;
+		perspective: 1000;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform:translate(-50%,-50%);
+		overflow: hidden;
+		background: #4a5d9c;
+		background: url(clouds.html-assets/background-layer.jpg);
+		background-size: cover;
+		background-position: center center;
+	}
+	#viewport:after {
+	 //content:' ';
+		position:absolute;
+		width:100%;
+		height:100%;
+		background: linear-gradient(transparent 0%, transparent 45%,rgba(0,0,0,0.2) 55%,rgba(0,0,0,0.4) 100%);
+	}
+	#ground {
+		position: relative;
+		width:3000px;
+		height:3000px;
+		transform:translate3d(-50%,-50%,-1000px) rotateX(90deg) ;
+		background: #4a5d9c;
+		top: 300%;
+		left: 50%;
+		display: none;
+	}
+
+	#world {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		margin-left: -256px;
+		margin-top: -900px;
+		height: 512px;
+		width: 512px;
+		-webkit-transform-style: preserve-3d;
+		-moz-transform-style: preserve-3d;
+		-o-transform-style: preserve-3d;
+	}
+
+	#world div {
+		-webkit-transform-style: preserve-3d;
+		-moz-transform-style: preserve-3d;
+		-o-transform-style: preserve-3d;
+	}
+
+	.loader {
+		position: fixed;
+		top:0;
+		width:0;
+		width: 150vw;
+		height: 150vh;
+		background: white;
+		opacity: 1;
+		transition: opacity 2s;
+	}
+	.loaded .loader {
+		opacity:0;
+	}
+	.cloudBase {
+		position: absolute;
+		left: 256px;
+		top: 256px;
+		width: 20px;
+		height: 20px;
+		margin-left: -10px;
+		margin-top: -10px;
+	}
+
+	.cloudLayer {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 256px;
+		height: 256px;
+		margin-left: -128px;
+		margin-top: -128px;
+		-webkit-transition: opacity .5s ease-out;
+		-moz-transition: opacity .5s ease-out;
+		-o-transition: opacity .5s ease-out;
+	}
+	.icelayer,.mtnlayer {
+		position: absolute;
+		top: 0;
+		left:0;
+		width:100%;
+	}
+	.icelayer:nth-child(1) {
+		animation: float 20s ease-in-out infinite;
+	}
+	.icelayer:nth-child(2) {
+		animation: float2 20s ease-in-out infinite 2s;
+	}
+	@-webkit-keyframes float {
+			0%,100% { transform: translateX(0px)}
+			25% { transform: translateX(13px)}
+			50% { transform: translateX(0px)}
+			75% { transform: translateX(-13px)}
+	}
+	@-webkit-keyframes float2 {
+			0%,100% { transform: translateX(0px)}
+			25% { transform: translateX(20px)}
+			50% { transform: translateX(0px)}
+			75% { transform: translateX(-20px)}
+	}
+
+	.sound-control {
+		position:absolute;
+		bottom: 10px;
+		left: 10px;
+		border: 2px solid white;
+		width: 46px;
+		height: 46px;
+		z-index: 10;
+		padding: 3px;
+	}
+
+	.bar-c {
+	  overflow: hidden;
+	  height: 36px;
+	  width: 40px;
+	  margin: 0 auto;
+	  position: relative;
+	  cursor: pointer;
+	}
+	.bar {
+	  height: 1px;
+	  width: 3px;
+	  display: inline-block;
+	  background-color: white;
+	  bottom: 0;
+	  position: absolute;
+	  -webkit-animation-duration: 500ms;
+	  -webkit-animation-play-state: running;
+	  -webkit-animation-direction: alternate;
+	  -webkit-animation-timing-function: linear;
+	  -webkit-animation-iteration-count: infinite;
+		animation-duration: 500ms;
+		animation-play-state: running;
+		animation-direction: alternate;
+		animation-timing-function: linear;
+		animation-iteration-count: infinite;
+	}
+	.bar.noAnim {
+
+	}
+	.noAnim .bar {
+		-webkit-animation: none;
+		animation: none;
+	}
+	.bar#bar-1 {
+	  left: 0;
+	  -webkit-animation-name: danceHeight1;
+	  -webkit-animation-delay: 0ms;
+		animation-name: danceHeight1;
+		animation-delay: 0ms;
+	}
+	.bar#bar-2 {
+	  left: 6px;
+	  -webkit-animation-name: danceHeight2;
+	  -webkit-animation-delay: 300ms;
+		animation-name: danceHeight2;
+		animation-delay: 300ms;
+	}
+	.bar#bar-3 {
+	  left: 12px;
+	  -webkit-animation-name: danceHeight3;
+	  -webkit-animation-delay: 600ms;
+		animation-name: danceHeight3;
+		animation-delay: 600ms;
+	}
+	.bar#bar-4 {
+	  left: 18px;
+	  -webkit-animation-name: danceHeight4;
+	  -webkit-animation-delay: 900ms;
+		animation-name: danceHeight4;
+		animation-delay: 900ms;
+	}
+	.bar#bar-5 {
+	  left: 24px;
+	  -webkit-animation-name: danceHeight5;
+	  -webkit-animation-delay: 1200ms;
+		animation-name: danceHeight5;
+		animation-delay: 1200ms;
+	}
+	.bar#bar-6 {
+	  left: 30px;
+	  -webkit-animation-name: danceHeight6;
+	  -webkit-animation-delay: 1500ms;
+		animation-name: danceHeight6;
+		animation-delay: 1500ms;
+	}
+	@-webkit-keyframes danceHeight1 {
+	  from {
+	    height: 1px;
+	  }
+	  to {
+	    height: 22px;
+	  }
+	}
+	@-webkit-keyframes danceHeight2 {
+	  from {
+	    height: 1px;
+	  }
+	  to {
+	    height: 15px;
+	  }
+	}
+	@-webkit-keyframes danceHeight3 {
+	  from {
+	    height: 1px;
+	  }
+	  to {
+	    height: 30px;
+	  }
+	}
+	@-webkit-keyframes danceHeight4 {
+	  from {
+	    height: 1px;
+	  }
+	  to {
+	    height: 20px;
+	  }
+	}
+	@-webkit-keyframes danceHeight5 {
+	  from {
+	    height: 1px;
+	  }
+	  to {
+	    height: 15px;
+	  }
+	}
+	@-webkit-keyframes danceHeight6 {
+	  from {
+	    height: 1px;
+	  }
+	  to {
+	    height: 15px;
+	  }
+	}
+	</style>
+</head>
+	<body>
+		<div class="sound-control">
+			<div class="bar-c">
+			  <div id="bar-1" class="bar"></div>
+			  <div id="bar-2" class="bar"></div>
+			  <div id="bar-3" class="bar"></div>
+			  <div id="bar-4" class="bar"></div>
+			  <div id="bar-5" class="bar"></div>
+			  <div id="bar-6" class="bar"></div>
+			</div>
+		</div>
+
+		<div id="viewport" style="perspective: 400px;">
+			<img class="mtnlayer" src="clouds.html-assets/mountain-layer.png">
+			<img class="icelayer" src="clouds.html-assets/ice-layer1.png">
+			<img class="icelayer" src="clouds.html-assets/ice-layer2.png">
+			<div id="world" style="transform: translateZ(0px) rotateX(0.978166deg) rotateY(-0.366025deg);">
+				<h1>Hello</h1>
+				<div id="ground">
+				</div>
+			<audio autoplay="" loop="">
+			  <source src="clouds.html-assets/icebergs.mp3" type="audio/mpeg">
+			</audio>
+		</div>
+		<div class="loader"></div>
+
+	<script>
+
+	(function() {
+		var lastTime = 0;
+		var vendors = ['ms', 'moz', 'webkit', 'o'];
+		for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+			window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+			window.cancelRequestAnimationFrame = window[vendors[x]+
+			  'CancelRequestAnimationFrame'];
+		}
+
+		if (!window.requestAnimationFrame)
+			window.requestAnimationFrame = function(callback, element) {
+				var currTime = new Date().getTime();
+				var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+				var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+				  timeToCall);
+				lastTime = currTime + timeToCall;
+				return id;
+			};
+
+		if (!window.cancelAnimationFrame)
+			window.cancelAnimationFrame = function(id) {
+				clearTimeout(id);
+			};
+	}())
+
+	function resize() {
+
+		var bodyW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+				bodyH = window.innerHeight || document.documentElement.clientHeight ||document.body.clientHeight;
+
+		var aspect = 1279/1920;
+		var viewport = document.getElementById('viewport');
+
+		if (bodyH/bodyW > aspect) {
+			console.log('yes')
+			viewport.style.height = '100vh';
+			viewport.style.width = 100/aspect + 'vh';
+		} else {
+			viewport.style.height = aspect*100 + 'vw';
+			viewport.style.width = '100vw';
+		}
+		document.body.classList.add('loaded');
+	}
+
+	function load() {
+		resize();
+		document.body.classList.add('loaded');
+	}
+
+	window.addEventListener('resize',resize);
+	window.addEventListener('load',load);
+
+
+	var layers = [],
+		objects = [],
+		world = document.getElementById( 'world' ),
+		viewport = document.getElementById( 'viewport' ),
+		mtns = document.querySelector('.mtnlayer'),
+		soundControl = document.querySelector('.sound-control'),
+		audio = document.querySelector('audio'),
+		d = 0,
+		p = 400,
+		worldXAngle = 0,
+		worldYAngle = 0,
+		mx = 0, my = 0;
+
+		audio.volume = 0.3;
+
+		function playPauseAudio() {
+			if(audio.paused) {
+				soundControl.classList.remove('noAnim');
+				audio.play();
+			} else {
+				soundControl.classList.add('noAnim');
+				audio.pause();
+			}
+		}
+
+		soundControl.addEventListener('click', playPauseAudio)
+
+	viewport.style.webkitPerspective = p;
+	viewport.style.MozPerspective = p;
+	viewport.style.oPerspective = p;
+
+	generate();
+
+	function createCloud() {
+
+		var div = document.createElement( 'div'  );
+		div.className = 'cloudBase';
+		var x = 256 - ( Math.random() * 512 );
+		var y = 256 - (Math.pow( Math.random(), 2) * 100);
+		var z = 256 - ( Math.random() * 512 );
+		var t = 'translateX( ' + x + 'px ) translateY( ' + y + 'px ) translateZ( ' + z + 'px )';
+		div.style.webkitTransform = t;
+		div.style.MozTransform = t;
+		div.style.oTransform = t;
+		world.appendChild( div );
+
+		for( var j = 0; j < 1; j++ ) {
+			var cloud = document.createElement( 'img' );
+			cloud.style.opacity = 0;
+			var r = Math.random();
+			var src = 'clouds.html-assets/cloud.png';
+			( function( img ) { img.addEventListener( 'load', function() {
+				img.style.opacity = .8;
+			} ) } )( cloud );
+			cloud.setAttribute( 'src', src );
+			cloud.className = 'cloudLayer';
+
+			var scale = 10;
+
+			var x = (256 - ( Math.random() * 512 ));
+			var y = (256 - ( Math.random() * 512 ));
+			var z = (100 - ( Math.random() * 200 ));
+			var a = Math.random() * 360;
+			var s = (256-y)*0.005;
+			x *= .2; y *= .2;
+			cloud.data = {
+				x: x,
+				y: y,
+				z: z,
+				a: a,
+				s: s,
+				speed: .1 * Math.random()
+			};
+			var t = 'translateX( ' + x + 'px ) translateY( ' + y + 'px ) translateZ( ' + z + 'px ) rotateZ( ' + a + 'deg ) scale( ' + s + ' )';
+			cloud.style.webkitTransform = t;
+			cloud.style.MozTransform = t;
+			cloud.style.oTransform = t;
+
+			div.appendChild( cloud );
+			layers.push( cloud );
+		}
+
+		return div;
+	}
+
+	window.addEventListener( 'mousewheel', onContainerMouseWheel );
+	window.addEventListener( 'DOMMouseScroll', onContainerMouseWheel );
+
+	function generate() {
+		objects = [];
+		for( var j = 0; j < 10; j++ ) {
+			objects.push( createCloud() );
+		}
+	}
+
+	function updateView() {
+		var t = 'translateZ( ' + d + 'px ) rotateX( ' + worldXAngle + 'deg) rotateY( ' + worldYAngle + 'deg)';
+
+		world.style.webkitTransform = t;
+		world.style.MozTransform = t;
+
+		var t2 = 'translate( '+ mx + 'px, ' + my + 'px)';
+
+		mtns.style.webkitTransform = t2;
+		mtns.style.MozTransform = t2;
+	}
+
+	function onContainerMouseWheel( event ) {
+		var zoomedIn = 0
+		var zoomedOut = -5000
+		var d = 5000
+
+		event = event ? event : window.event;
+			console.log(d);
+			d = d - ( event.detail ? event.detail * -100 : event.wheelDelta / 100 );
+			if (d < zoomedIn & d > zoomedOut) {
+
+				updateView();
+			} else if (d < zoomedOut) {
+				d = -100
+			} else if (d > zoomedIn){
+				d = 0
+			}
+	}
+
+	function update (){
+
+		for( var j = 0; j < layers.length; j++ ) {
+			var layer = layers[ j ];
+			layer.data.a += layer.data.speed;
+			var t = 'translateX( ' + layer.data.x + 'px ) translateY( ' + layer.data.y + 'px ) translateZ( ' + layer.data.z + 'px ) rotateY( ' + ( - worldYAngle ) + 'deg ) rotateX( ' + ( - worldXAngle ) + 'deg ) rotateZ( ' + layer.data.a + 'deg ) scale( ' + layer.data.s + ')';
+			layer.style.webkitTransform = t;
+			layer.style.MozTransform = t;
+			layer.style.oTransform = t;
+		}
+
+		requestAnimationFrame( update );
+
+	}
+
+	update();
+
+	</script>
+
+
+
+
+
+</body></html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+	
+	<style>
+		html, body {
+			width: 100%; 
+			margin: 0;
+		}
+		.container {
+			position: relative;
+			height: 65vw;
+			overflow: hidden;
+		}
+		img {
+			position: absolute;
+			width: 100%;
+			left: 0;
+			transform-origin: 50% 50%;
+		}		
+		img#image-3,
+		img#image-2 {
+			bottom: 0;
+		}
+		
+	</style>
+	
+</head>
+
+<body>
+	<div class="container">
+		<img src="mtnlake.html-assets/mtn-layer1.png" id="image-1" alt="mtn-layer1" />
+		<img src="mtnlake.html-assets/mtn-layer2.png" id="image-2" alt="mtn-layer2" />
+		<img src="mtnlake.html-assets/mtn-layer3.png" id="image-3" alt="mtn-layer3" />
+	</div>
+	
+</body>
+<script>
+	
+	var w = window.innerWidth;
+	var h = window.innerHeight;
+	
+	$('.container').on('mousemove', function(e){
+		console.log(e.pageX+' '+e.pageY);
+		
+		ratio = 25;
+		
+		$('#image-3').css({
+			'transform' : 'scale(1.2) translate3d('+ (e.pageX/w - 0.5)*ratio +'px,' + (e.pageY/h - 0.5)*ratio +'px, 0px)'
+		})
+		$('#image-2').css({
+			'transform' : 'scale(1.03) translate3d('+ (e.pageX/w - 0.5)*ratio *0.4 +'px,' + (e.pageY/h - 0.5)*ratio *0.4 +'px, 0px)'
+		})
+		x = e.pageX; 
+		y = e.pageY;
+
+	})
+		
+</script>
+
+
+
+
+</html>

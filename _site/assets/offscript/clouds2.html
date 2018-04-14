@@ -1,0 +1,404 @@
+
+<html>
+   <head>
+      <title>Cloud Shader</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<script src="threejs/three.min.js"></script>
+      <script src="threejs/OrbitControls.js"></script>
+      <script src="clouds2.html-assets/CloudShader.js"></script>
+      <script src="threejs/BufferGeometryUtils.js"></script>
+
+      <style>
+        body {
+          padding: 40px;
+        }
+    </style>
+
+   </head>
+   <body>
+
+   </body>
+   <script type="x-shader/x-vertex" id="vertexShader">
+
+     attribute vec4 tangent;
+
+     uniform float time;
+     uniform vec2 repeat;
+     uniform float useNormal;
+     uniform float useRim;
+
+     varying vec2 vUv;
+     varying vec3 vTangent;
+     varying vec3 vBinormal;
+     varying vec3 vNormal;
+     varying vec3 vEye;
+     varying vec3 vU;
+     varying vec2 vN;
+
+     void main() {
+
+       vU = normalize( vec3( modelViewMatrix * vec4( position, 1.0 ) ) );
+
+       if( useNormal == 0. ) {
+         vec3 n = normalize( normalMatrix * normal );
+         vec3 r = reflect( vU, n );
+         float m = 2.0 * sqrt( r.x * r.x + r.y * r.y + ( r.z + 1.0 ) * ( r.z+1.0 ) );
+         vN = vec2( r.x / m + 0.5,  r.y / m + 0.5 );
+       } else {
+         vN = vec2( 0. );
+       }
+
+       vUv = repeat * uv;
+       gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+       vNormal = normalize( normalMatrix * normal );
+
+     if( useNormal > 0. ) {
+         vTangent = normalize( normalMatrix * tangent.xyz );
+         vBinormal = normalize( cross( vNormal, vTangent ) * tangent.w );
+       } else {
+         vTangent = vec3( 0. );
+         vBinormal = vec3( 0. );
+       }
+
+       if( useRim > 0. ) {
+         vEye = ( modelViewMatrix * vec4( position, 1.0 ) ).xyz;
+       } else {
+         vEye = vec3( 0. );
+       }
+
+     }
+
+     </script>
+
+     <script type="x-shader/x-vertex" id="fragmentShader">
+
+     uniform float time;
+     uniform sampler2D tNormal;
+     uniform sampler2D tMatCap;
+     uniform sampler2D tDiffuse;
+     uniform float useDiffuse;
+     uniform float noise;
+     uniform float useNormal;
+     uniform float useRim;
+     uniform float rimPower;
+     uniform float useScreen;
+     uniform float normalScale;
+     uniform float normalRepeat;
+
+     varying vec2 vUv;
+     varying vec3 vTangent;
+     varying vec3 vBinormal;
+     varying vec3 vNormal;
+     varying vec3 vEye;
+     varying vec3 vU;
+     varying vec2 vN;
+
+     float random(vec3 scale,float seed){return fract(sin(dot(gl_FragCoord.xyz+seed,scale))*43758.5453+seed);}
+
+     void main() {
+
+       vec3 finalNormal = vNormal;
+       vec2 calculatedNormal;
+
+       if ( useNormal > 0. ) {
+         vec3 normalTex = texture2D( tNormal, vUv * normalRepeat ).xyz * 2.0 - 1.0;
+         normalTex.xy *= normalScale;
+         normalTex.y *= -1.;
+         normalTex = normalize( normalTex );
+         mat3 tsb = mat3( normalize( vTangent ), normalize( vBinormal ), normalize( vNormal ) );
+         finalNormal = tsb * normalTex;
+
+         vec3 r = reflect( vU, normalize( finalNormal ) );
+         float m = 2.0 * sqrt( r.x * r.x + r.y * r.y + ( r.z + 1.0 ) * ( r.z + 1.0 ) );
+         calculatedNormal = vec2( r.x / m + 0.5,  r.y / m + 0.5 );
+       } else {
+         vec2 calculatedNormal = vN;
+       }
+
+       vec3 base = texture2D( tMatCap, calculatedNormal ).rgb;
+
+       // rim lighting
+
+       if( useRim > 0. ) {
+         float f = rimPower * abs( dot( vNormal, normalize( vEye ) ) );
+         f = useRim * ( 1. - smoothstep( 0.0, 1., f ) );
+             base += vec3( f );
+         }
+
+       // screen blending
+
+       if( useScreen == 1. ) {
+         base = vec3( 1. ) - ( vec3( 1. ) - base ) * ( vec3( 1. ) - base );
+       }
+
+       // noise
+
+       base += noise * ( .5 - random( vec3( 1. ), length( gl_FragCoord ) ) );
+
+       if (useDiffuse > 0.) {
+         // repeat tne texture
+         vec2 tile = vec2(0.1,.1);
+         vec2 phase = fract(vUv.xy / tile);
+         //vec3 diffuse = texture2D( tDiffuse, (vUv+0.5)*4.).xyz *2. -1.;
+         vec3 diffuse = texture2D( tDiffuse, phase).xyz * 2. -1.;
+
+         diffuse = normalize(diffuse);
+         base = diffuse * 0.4 + base*0.8;
+       }
+       float polar = 2. * sqrt(abs(vUv.x * vUv.x) + abs(vUv.y * vUv.y));
+      // make fade to white outside circle
+       if ( polar > 0.4) {
+         base = vec3(1.,1.,1.) * ( 10. * polar - 4.) + base * (-10. * polar + 5.0);
+       }
+
+       gl_FragColor = vec4( base, 1. );
+
+     }
+
+     </script>
+   <script>
+
+   var shaderMat;
+   var debug = false;
+   var clock = new THREE.Clock();
+   var cloudPlane;
+   init();
+
+   function init() {
+
+     container = document.createElement( 'div' );
+     document.body.appendChild( container );
+
+
+   //--------------- CAMERA ---------------------//
+
+     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 3000 );
+     camera.position.set( 0,140,150 );
+
+     cameraTarget = new THREE.Vector3( 0, 0, 0 );
+     camera.lookAt(0,0,0)
+
+
+   //--------------- SCENE ---------------------//
+
+     scene = new THREE.Scene();
+
+   //--------------- RENDERER ---------------------//
+
+     renderer = new THREE.WebGLRenderer({ antialias:false, alpha:true });
+
+     renderer.setClearColor( 0xffffff, 1);
+
+     renderer.setPixelRatio(window.devicePixelRatio);
+     renderer.setSize(window.innerWidth -100 , window.innerHeight -100);
+     container.appendChild(renderer.domElement);
+
+   //--------------- LIGHTS ---------------------//
+
+
+
+   //--------------- MATERIALS ---------------------//
+
+    var textureLoader = new THREE.TextureLoader();
+
+    cloudMat = new THREE.ShaderMaterial( THREE.CloudLayerShader )
+    cloudMat.needsUpdate = true;
+    cloudMat.uniforms.tNoise.needsUpdate = true;
+    cloudMat.uniforms.uTime.needsUpdate = true
+
+    whiteMaterial = new THREE.ShaderMaterial( {
+
+      uniforms: {
+        tNormal: { type: 't', value: textureLoader.load( 'clouds2.html-assets/snow-bump.jpg' )},
+        tMatCap: { type: 't', value: textureLoader.load('clouds2.html-assets/softwhite-desat-matcap.png')},
+        tDiffuse: { type: 't', value: textureLoader.load('clouds2.html-assets/trees-snow.jpg')},
+        useDiffuse: { type: 'f', value: 1 },
+        time: { type: 'f', value: 0 },
+        bump: { type: 'f', value: 1 },
+        noise: { type: 'f', value: .04 },
+        repeat: { type: 'v2', value: new THREE.Vector2( 0.005,0.005 ) },
+        useNormal: { type: 'f', value: 1.},
+        useRim: { type: 'f', value: 0 },
+        rimPower: { type: 'f', value: 15 },
+        useScreen: { type: 'f', value: 0 },
+        normalScale: { type: 'f', value: 0.1  },
+        normalRepeat: { type: 'f', value: 10 }
+      },
+     vertexShader: document.getElementById( 'vertexShader' ).textContent,
+     fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+   });
+
+   //--------------- OBJECTS ---------------------//
+
+
+    var planeGeo = new THREE.PlaneBufferGeometry( 200, 200 );
+    cloudPlane = new THREE.Mesh(planeGeo, cloudMat);
+    cloudPlane.material.side = THREE.DoubleSide;
+    cloudPlane.rotation.set( -Math.PI/2, 0, 0 );
+    cloudPlane.position.set( 0, 12, 0 );
+    cloudPlane.material.uniforms.uTime.needsUpdate = true;
+    scene.add( cloudPlane );
+
+
+    function getHeightData(img,scale) {
+      if (scale == undefined) scale=1;
+
+      var canvas = document.createElement( 'canvas' );
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var context = canvas.getContext( '2d' );
+
+      var size = img.width * img.height;
+      var data = new Float32Array( size );
+
+      context.drawImage(img,0,0);
+
+      for ( var i = 0; i < size; i ++ ) {
+        data[i] = 0
+      }
+
+      var imgd = context.getImageData(0, 0, img.width, img.height);
+      var pix = imgd.data;
+
+      var j=0;
+      for (var i = 0; i<pix.length; i +=4) {
+        var all = pix[i]+pix[i+1]+pix[i+2];
+        data[j++] = all/(12*scale);
+      }
+      return data;
+    }
+
+    var img = new THREE.ImageLoader().load('clouds2.html-assets/ridge-displacement.png', function(){
+
+      var data = getHeightData(img);
+
+      // plane
+      var geometry = new THREE.PlaneGeometry(100,100,255,255);
+      plane = new THREE.Mesh( geometry, whiteMaterial );
+
+      //set height of vertices
+      for ( var i = 0; i<plane.geometry.vertices.length; i++ ) {
+         plane.geometry.vertices[i].z = data[i] -1;
+      }
+
+      var geometry = new THREE.Geometry();
+      geometry.vertices =  plane.geometry.vertices;
+      geometry.faces =  plane.geometry.faces;
+
+      assignUVs(geometry)
+
+      function assignUVs(geometry) {
+
+        geometry.faceVertexUvs[0] = [];
+
+        plane.geometry.faces.forEach(function(face) {
+
+            var components = ['x', 'y', 'z'].sort(function(a, b) {
+                return Math.abs(face.normal[a]) > Math.abs(face.normal[b]);
+            });
+
+            var v1 = geometry.vertices[face.a];
+            var v2 = geometry.vertices[face.b];
+            var v3 = geometry.vertices[face.c];
+
+            geometry.faceVertexUvs[0].push([
+                new THREE.Vector2(v1[components[0]], v1[components[1]]),
+                new THREE.Vector2(v2[components[0]], v2[components[1]]),
+                new THREE.Vector2(v3[components[0]], v3[components[1]])
+            ]);
+
+        });
+
+        geometry.uvsNeedUpdate = true;
+      }
+
+      geometry.computeFaceNormals();
+      geometry.mergeVertices();
+      geometry.computeVertexNormals();
+
+      var buffer_g = new THREE.BufferGeometry();
+      buffer_g.fromGeometry(geometry);
+
+      var indices = new Uint32Array( (buffer_g.attributes.position.count-1)*3);
+      var indices = new Uint32Array( 390150);
+
+
+      for (var i=0; i<indices.length; i+=3) {
+        indices[i] = i;
+        indices[i+1] = i+1;
+        indices[i+2] = i+2;
+      }
+
+      buffer_g.setIndex( new THREE.BufferAttribute( indices, 1))
+
+      THREE.BufferGeometryUtils.computeTangents(buffer_g)
+
+      var mesh = new THREE.Mesh(buffer_g, whiteMaterial);
+      mesh.rotation.set( -Math.PI/2, 0, 0 );
+      mesh.position.set( 0, 1, 0 );
+      scene.add( mesh )
+
+    });
+
+
+
+   //--------------- CONTROLS ---------------------//
+
+     controls = new THREE.OrbitControls( camera );
+     controls.minDistance = 100;
+     controls.maxDistance = 200;
+     controls.minPolarAngle = 0; // radians
+     controls.maxPolarAngle = Math.PI/2.5;
+
+   //--------------- EVENT LISTENERS --------------//
+
+     window.addEventListener( 'resize', onWindowResize, false )
+     controls.addEventListener( 'change', render );
+
+     animate();
+
+   }
+
+   //--------------- FNS -------------------------//
+
+
+   function onWindowResize() {
+
+     camera.aspect = window.innerWidth / window.innerHeight;
+     camera.updateProjectionMatrix();
+
+     renderer.setSize( window.innerWidth, window.innerHeight );
+
+   }
+
+   function onDocumentMouseMove(event) {
+
+     mouseX = ( event.clientX - windowHalfX );
+     mouseY = ( event.clientY - windowHalfY );
+
+   }
+
+   function animate() {
+
+     requestAnimationFrame( animate );
+     render();
+
+   }
+
+   function render() {
+
+     var timer = Date.now();
+     var elapsed = clock.getElapsedTime()*1000;
+
+     cloudMat.uniforms['uTime'].value = elapsed;
+
+     camera.lookAt( cameraTarget );
+
+     renderer.render( scene, camera );
+
+   }
+
+
+   </script>
+</html>

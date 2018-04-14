@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Mushrooms!</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=11" />
+
+  <link rel="shortcut icon" href="assets/favicon.ico">
+
+  <script src="threejs/three.min.js"></script>
+  <script src="threejs/OrbitControls.js"></script>
+  <script src="threejs/oimo.min.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+
+
+<script type="x-shader/x-vertex" id="sphere-vs">
+
+void main() {
+  gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+}
+
+</script>
+
+<script type="x-shader/x-vertex" id="sphere-fs">
+
+uniform vec2 resolution;
+uniform float noise;
+
+#define VIG_REDUCTION_POWER 5.5
+#define VIG_BOOST 4.1
+
+float random(vec3 scale,float seed){return fract(sin(dot(gl_FragCoord.xyz+seed,scale))*43758.5453+seed);}
+
+void main() {
+
+  vec3 color = vec3( 34. / 255., 34. / 255., 38. / 255. );
+  vec2 center = resolution * 0.5;
+  float vignette = distance( center, gl_FragCoord.xy ) / resolution.x;
+  vignette = VIG_BOOST - vignette * VIG_REDUCTION_POWER;
+
+  float n = noise * ( .5 - random( vec3( 1. ), length( gl_FragCoord ) ) );
+
+  gl_FragColor = vec4( color * vec3( vignette ) + vec3( n ), 1. );
+
+}
+
+</script>
+<script>
+
+  var camera, scene, light, renderer, canvas, controls;
+  var meshs = [];
+  var grounds = [];
+
+  var psychadelicMaterial, bgMaterial, groundMaterial;
+
+  //oimo var
+  var world = null;
+  var bodys = [];
+
+  var fps = [0,0,0,0];
+  var ToRad = 0.0174532925199432957;
+
+  var loader = new THREE.JSONLoader();
+
+  loader.load('mushroom.html-assets/mushroom.json', function(geometry){
+
+    // flip the normals to fix exporter bug
+    geometry.faces.forEach(function(face) {
+      face.normal = new THREE.Vector3(
+        face.normal.x, -face.normal.z, face.normal.y
+      );
+      face.vertexNormals = face.vertexNormals.map(
+        vn => new THREE.Vector3( vn.x, -vn.z, vn.y )
+      );
+    });
+    geometry.normalsNeedUpdate = true;
+    geometry.verticesNeedUpdate = true;
+
+    init(geometry)
+  })
+
+  function init(mushroomGeo) {
+
+    canvas = document.getElementById("canvas");
+
+    camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );
+    camera.position.set( 0, 100, 300 );
+
+    controls = new THREE.OrbitControls( camera, canvas );
+    controls.target.set(0, 20, 0);
+    controls.minDistance = 20;
+    controls.maxDistance = 500;
+
+
+    scene = new THREE.Scene();
+
+    renderer = new THREE.WebGLRenderer({ canvas:canvas, precision: "mediump", antialias:true, alpha: true });
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    renderer.setClearColor( 0xffffff, 1);
+
+  	if (scene.fog) {
+  		renderer.setClearColor( scene.fog.color, 0.1 );
+  	}
+
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
+
+    scene.add( new THREE.AmbientLight( 0x333344 ) );
+    light = new THREE.DirectionalLight( 0xeeeeff , 1.2);
+    light.position.set( 300, 1000, 500 );
+    light.target.position.set( 0, 0, 0 );
+    light.castShadow = true;
+
+    var d = 300;
+    light.shadow.camera = new THREE.OrthographicCamera( -d, d, d, -d,  500, 1200 );
+    light.shadow.bias = 0.0001;
+    light.shadow.mapSize.width = light.shadow.mapSize.height = 1024;
+
+    scene.add( light );
+
+    light2 = new THREE.SpotLight( 0xeeeeff , 5, 800, 50,1);
+    light2.position.set( 0, 600, 00 );
+    light2.target.position.set( 0, 0, 0 );
+    light2.castShadow = true;
+    scene.add(light2)
+
+    // materials
+
+    meshMaterial = new THREE.MeshLambertMaterial({
+      color: 0xff0000,
+      wireframe: true,
+      shading: THREE.FlatShading,
+
+    })
+
+    meshGreenMaterial = new THREE.MeshLambertMaterial({
+      color: 0x00ff00,
+      wireframe: true,
+      shading: THREE.FlatShading,
+    })
+
+    bgMaterial = new THREE.ShaderMaterial( {
+			uniforms: {
+				resolution: { type: 'v2', value: new THREE.Vector2( 0, 0 ) },
+				noise: { type: 'f', value: 0.01 }
+			},
+			vertexShader: document.getElementById( 'sphere-vs' ).textContent,
+			fragmentShader: document.getElementById( 'sphere-fs' ).textContent,
+			side: THREE.DoubleSide
+
+		} );
+		bgMaterial.uniforms.resolution.value.set( 1 * window.innerWidth, 1 * window.innerHeight );
+
+    groundMaterial = new THREE.MeshPhongMaterial({shininess: 100, color:0x111111, } );
+
+    var textureLoader = new THREE.TextureLoader()
+    psychadelicMaterial    = new THREE.MeshPhongMaterial( {
+      shininess: 10,
+      map:gradTexture([[1,0.75,0.39,0.385], ['#ffffff','#ffffff','#ff00ff', '#ff0033']]),
+      emissive: gradTexture([[1,0.75,0.39,0.385], ['#ffffff','#ffffff','#ff00ff', '#ff0033']]),
+    });
+
+    var bgSphere = new THREE.Mesh( new THREE.SphereBufferGeometry( 1000, 5,5 ), bgMaterial );
+		scene.add( bgSphere );
+
+
+    // events
+
+    window.addEventListener( 'resize', onWindowResize, false );
+
+    // physics
+    initOimoPhysics();
+    populate(mushroomGeo)
+
+
+}
+
+  function animate() {
+    updateOimoPhysics();
+    renderer.render( scene, camera );
+    requestAnimationFrame( animate );
+
+  }
+
+  function onWindowResize() {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+  }
+
+  function addStaticBox(size, position, rotation) {
+    var mesh = new THREE.Mesh( new THREE.BoxBufferGeometry(1,1,1), groundMaterial );
+    mesh.scale.set( size[0], size[1], size[2] );
+    mesh.position.set( position[0], position[1], position[2] );
+    mesh.rotation.set( rotation[0]*ToRad, rotation[1]*ToRad, rotation[2]*ToRad );
+    scene.add( mesh );
+    grounds.push(mesh);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+  }
+
+  function clearMesh(){
+    var i=meshs.length;
+    while (i--) scene.remove(meshs[ i ]);
+    i = grounds.length;
+    while (i--) scene.remove(grounds[ i ]);
+    grounds = [];
+    meshs = [];
+  }
+
+  //----------------------------------
+  //  OIMO PHYSICS
+  //----------------------------------
+
+  function initOimoPhysics(){
+
+    world = new OIMO.World({
+      info:true,
+      worldscale:100,
+      gravity: [0, -5, 0]
+    });
+  }
+
+  function populate(mushroomGeo) {
+
+    var max = 20;
+    // reset old
+    clearMesh();
+    world.clear();
+    bodys = [];
+  //add ground
+
+    var ground1 = world.add({size:[400, 1, 400], pos:[0,0,0],  rot:[0,0,0], world:world});
+    addStaticBox([400, 1, 400], [0,0,0], [0,0,0]);
+
+
+    var cylinderGeo = new THREE.BufferGeometry().fromGeometry(new THREE.CylinderGeometry(1,1,1));
+    var sphereGeo = new THREE.BufferGeometry().fromGeometry(new THREE.SphereGeometry(1,8,4));
+
+
+
+    //add object
+    var x, y, z, w, h, d;
+    var i = max;
+
+
+    while (i--){
+      x = 0 + Math.random()*10;
+      y = 400 + Math.random()*100;// + Math.random()*200;
+      z = 0 + Math.random()*4;
+      w = 42;//10 + Math.random()*10;
+      h = 50;
+      d = 10 + Math.random()*10;
+
+      bodys[i] = world.add({
+        type:['sphere', 'sphere'],
+        size:[w*0.35,w*0.35,w*0.35, w*0.53,w*0.53,w*0.53],
+        pos:[x,y-8.5,z, x,y+5,z],
+        move:true,
+        world:world,
+        mass: 1
+      });
+
+      // var sphere = new THREE.Mesh( sphereGeo, meshMaterial );
+      // sphere.scale.setScalar( w*0.35 );
+      // sphere.position.set(0,-17,0);
+      //
+      //
+      // var sphereBig = new THREE.Mesh( sphereGeo, meshGreenMaterial );
+      // sphereBig.scale.setScalar( w*0.53 );
+      // sphereBig.position.set(0,10,0);
+
+
+      var mushroom = new THREE.Mesh( mushroomGeo, psychadelicMaterial)
+      mushroom.castShadow = true;
+      mushroom.scale.setScalar(h*0.55)
+
+      meshs[i] = new THREE.Object3D();
+    //  meshs[i].add(sphere)
+    //  meshs[i].add(sphereBig)
+      meshs[i].add(mushroom)
+
+      meshs[i].castShadow = true;
+      meshs[i].receiveShadow = true;
+
+      scene.add( meshs[i] );
+    }
+
+    animate()
+  }
+
+  function updateOimoPhysics() {
+    if(world==null) return;
+
+    world.step();
+
+    var x, y, z, mesh, body, i = bodys.length;
+
+    while (i--){
+      body = bodys[i];
+      mesh = meshs[i];
+
+      if(!body.sleeping){
+
+        mesh.position.copy(body.getPosition());
+        mesh.quaternion.copy(body.getQuaternion());
+
+        // change material
+        //if(mesh.material.name === 'ssph') mesh.material = mats.sph;
+
+        // reset position
+        if(mesh.position.y<-100){
+          x = 0 + Math.random()*10;
+          z = 0 + Math.random()*100;
+          y = 1000 + Math.random()*20;// + Math.random()*10
+
+          body.resetPosition(x,y,z);
+        }
+      } else {
+          //if(mesh.material.name === 'box') mesh.material = mats.sbox;
+          //if(mesh.material.name === 'sph') mesh.material = whiteMaterial;
+      }
+    }
+  }
+
+
+  //----------------------------------
+  //  TEXTURES
+  //----------------------------------
+
+  function gradTexture(color) {
+    var c = document.createElement("canvas");
+    // document.body.append(c);
+    // c.style.position='absolute'
+    // c.style.top = 0;
+    var ct = c.getContext("2d");
+    var size = 16;
+    c.width = 16; c.height = size;
+    var gradient = ct.createLinearGradient(0,0,0,size);
+    var i = color[0].length;
+    while(i--){ gradient.addColorStop(color[0][i],color[1][i]); }
+    ct.fillStyle = gradient;
+    ct.fillRect(0,0,50,size);
+    var texture = new THREE.Texture(c);
+    texture.needsUpdate = true;
+    return texture;
+  }
+
+</script>
+</body>
+</html>

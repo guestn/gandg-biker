@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js Template</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+		@import url('https://fonts.googleapis.com/css?family=Dawning+of+a+New+Day');
+		@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+			body {
+				font-family: Monospace;
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+				font-family: 'Raleway', sans-serif;
+				width:100%;
+				overflow: hidden;
+				cursor: all-scroll;
+			}
+			body:after {
+				content:' ';
+					position: absolute;
+					width: 100vw;
+					height: 100vh;
+					top: 0;
+					left:0;
+					z-index: 200;
+					background-image: url(dubheartach.html-assets/whitenoise.jpg);
+					background-size: 25%;
+					opacity:0.2;
+					pointer-events: none;
+				}
+			}
+			#info {
+				color: black;
+				position: absolute;
+				top: 100px;
+				right: 10px;
+				width: 200px;
+				height: 3.5em;
+				z-index: 100;
+				display:block;
+				background: rgba(255,255,255,0.8);
+			}
+			#legend {
+				position:absolute;
+				top:0;
+				left:0;
+				padding: 0 20px;
+				line-height: 0.5;
+				color:white;
+			}
+			#legend h1 {
+				font-family: 'Dawning of a New Day', cursive;
+				font-size: 50px;
+				line-height: 2;
+				color:	#D5AD6D; /*if no support for background-clip*/
+				background: -webkit-linear-gradient(transparent, transparent),
+             -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+				background: -o-linear-gradient(transparent, transparent);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+			#heightmap {
+				position: absolute;
+				left: 10px;
+				top:10px;
+				opacity: 0;
+			}
+			input[type="checkbox"] {
+				position:absolute;
+				bottom:20px;
+				left:20px;
+				opacity: 0;
+			}
+			label {
+				position:absolute;
+				bottom:20px;
+				right:20px;
+				color:white;
+				border: 2px solid white;
+				padding: 15px 20px;
+			}
+
+			#info {
+				position: absolute;
+				bottom:10px;
+				right:10px;
+				z-index: 120;
+			}
+			.info-icon {
+				position: absolute;
+				right:30px;
+				top: 130px;
+				width: 30px;
+				height: 30px;
+				color: white;
+				font-size:25px;
+				border: 2px solid white;
+				border-radius: 50%;
+				text-align: center;
+				cursor: pointer;
+			}
+			.info-icon:hover {
+				opacity:0.6;
+			}
+			.info-box {
+				position: absolute;
+				top: 140px;
+				right: 10px;
+				transform: translateX(120%);
+				transition: transform 0.5s ease-out;
+				line-height: 1;
+			}
+			.info-box img {
+				height:200px;
+			}
+			.info-box a {
+				color: black;
+			}
+			input[type="checkbox"].info-toggle {
+				position: absolute;
+				display: block;
+				right:20px;
+				left: auto;
+				top: 120px;
+				height:100px;
+				width:60px;
+				background:red;
+				z-index: 20;
+				opacity: 0;
+				/*width: 30px;
+				height: 30px;*/
+			}
+			.info-toggle:checked ~ .info-box {
+				transform: translateX(0%)
+			}
+
+			.button { background:#999; color:#eee; padding:0.2em 0.5em; cursor:pointer }
+			.highlight { background:orange; color:#fff; }
+
+			span {
+				display: inline-block;
+				width: 60px;
+				float: left;
+				text-align: center;
+			}
+			.sound-control {
+				position:absolute;
+				bottom: 20px;
+				left: 20px;
+				border: 2px solid white;
+				width: 46px;
+				height: 46px;
+				z-index: 10;
+				padding: 3px;
+			}
+		
+			.bar-c {
+			  overflow: hidden;
+			  height: 36px;
+			  width: 40px;
+			  margin: 0 auto;
+			  position: relative;
+			  cursor: pointer;
+			}
+			.bar {
+			  height: 1px;
+			  width: 3px;
+			  display: inline-block;
+			  background-color: white;
+			  bottom: 0;
+			  position: absolute;
+			  -webkit-animation-duration: 500ms;
+			  -webkit-animation-play-state: running;
+			  -webkit-animation-direction: alternate;
+			  -webkit-animation-timing-function: linear;
+			  -webkit-animation-iteration-count: infinite;
+				animation-duration: 500ms;
+				animation-play-state: running;
+				animation-direction: alternate;
+				animation-timing-function: linear;
+				animation-iteration-count: infinite;
+			}
+			.bar.noAnim {
+		
+			}
+			.noAnim .bar {
+				-webkit-animation: none;
+				animation: none;
+			}
+			.bar#bar-1 {
+			  left: 0;
+			  -webkit-animation-name: danceHeight1;
+			  -webkit-animation-delay: 0ms;
+				animation-name: danceHeight1;
+				animation-delay: 0ms;
+			}
+			.bar#bar-2 {
+			  left: 6px;
+			  -webkit-animation-name: danceHeight2;
+			  -webkit-animation-delay: 300ms;
+				animation-name: danceHeight2;
+				animation-delay: 300ms;
+			}
+			.bar#bar-3 {
+			  left: 12px;
+			  -webkit-animation-name: danceHeight3;
+			  -webkit-animation-delay: 600ms;
+				animation-name: danceHeight3;
+				animation-delay: 600ms;
+			}
+			.bar#bar-4 {
+			  left: 18px;
+			  -webkit-animation-name: danceHeight4;
+			  -webkit-animation-delay: 900ms;
+				animation-name: danceHeight4;
+				animation-delay: 900ms;
+			}
+			.bar#bar-5 {
+			  left: 24px;
+			  -webkit-animation-name: danceHeight5;
+			  -webkit-animation-delay: 1200ms;
+				animation-name: danceHeight5;
+				animation-delay: 1200ms;
+			}
+			.bar#bar-6 {
+			  left: 30px;
+			  -webkit-animation-name: danceHeight6;
+			  -webkit-animation-delay: 1500ms;
+				animation-name: danceHeight6;
+				animation-delay: 1500ms;
+			}
+			@-webkit-keyframes danceHeight1 {
+			  from {
+			    height: 1px;
+			  }
+			  to {
+			    height: 22px;
+			  }
+			}
+			@-webkit-keyframes danceHeight2 {
+			  from {
+			    height: 1px;
+			  }
+			  to {
+			    height: 15px;
+			  }
+			}
+			@-webkit-keyframes danceHeight3 {
+			  from {
+			    height: 1px;
+			  }
+			  to {
+			    height: 30px;
+			  }
+			}
+			@-webkit-keyframes danceHeight4 {
+			  from {
+			    height: 1px;
+			  }
+			  to {
+			    height: 20px;
+			  }
+			}
+			@-webkit-keyframes danceHeight5 {
+			  from {
+			    height: 1px;
+			  }
+			  to {
+			    height: 15px;
+			  }
+			}
+			@-webkit-keyframes danceHeight6 {
+			  from {
+			    height: 1px;
+			  }
+			  to {
+			    height: 15px;
+			  }
+			}
+
+		</style>
+	</head>
+	<body>
+		<img id="heightmap" src="dubheartach.html-assets/heightmap128.png"/>
+		<div id="legend">
+			<h1>Dubh Artach Lighthouse</h1>
+		</div>
+		<div class="sound-control">
+			<div class="bar-c">
+			  <div id="bar-1" class="bar"></div>
+			  <div id="bar-2" class="bar"></div>
+			  <div id="bar-3" class="bar"></div>
+			  <div id="bar-4" class="bar"></div>
+			  <div id="bar-5" class="bar"></div>
+			  <div id="bar-6" class="bar"></div>
+			</div>
+		</div>
+		<audio autoplay="" loop="">
+		  <source src="dubheartach.html-assets/sea-sounds.mp3" type="audio/mpeg">
+		</audio>
+
+		<label for="boatTrip">Go on a boat trip</label>
+		<input id="boatTrip" type="checkbox"/>
+		<div class="info-icon">i</div>
+		<input class="info-toggle" type="checkbox"/>
+		<article class="info-box">
+			<h1>Dubh Artach Lighthouse</h1>
+			<h2>Thomas Stevenson, 1872</h2>
+			<h3>Argyll, Scotland</h3>
+			<a target="_blank" href="//en.wikipedia.org/wiki/Thomas_Stevenson">
+				<img class="engineer" src="dubheartach.html-assets/t-stevenson.jpg">
+			</a>
+			<a target="_blank" href="//books.google.com/books/about/The_Lighthouse_Stevensons.html?id=yZeiDA8vBWcC&source=kp_cover&hl=en">
+				<img src="dubheartach.html-assets/book.jpg">
+			</a>
+			<h3><a target="_blank" href="//www.google.com/maps/place/56%C2%B008'00.0%22N+6%C2%B038'00.0%22W/@56.1339401,-6.9062893,10z/data=!4m5!3m4!1s0x0:0x0!8m2!3d56.13333!4d-6.63333" target="_blank">56.13333°N 6.63333°W"</a></h3>
+		</article>
+		<script>
+			document.title= window.location.pathname.split('/').pop();
+		</script>
+		<script src="threejs/three.min.js"></script>
+		<script src="threejs/OrbitControls.js"></script>
+		<script src="threejs/OBJLoader.js"></script>
+		<script src="threejs/MTLLoader.js"></script>
+		<script src="threejs/waterShader.js"></script>
+		<script src="threejs/CopyShader.js"></script>
+		<script src="threejs/BokehShader.js"></script>
+		<script src="threejs/ShaderExtras.js"></script>
+		<script src="threejs/ShaderSkin.js"></script>
+		<script src="threejs/EffectComposer.js"></script>
+		<script src="threejs/RenderPass.js"></script>
+		<script src="threejs/ShaderPass2.js"></script>
+		<script src="threejs/CurveExtras.js"></script>
+		<script src="dubheartach.html-assets/dubheartach.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>VR Demo</title>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="viewport" content="width=devicewidth, minimal-ui">
+
+	<style>
+	  @import url(VRdemo.html-assets/Cesium-1.20/Apps/Sandcastle/templates/bucket.css);
+
+		* {
+			box-sizing: border-box;
+		}
+		body, html {
+			width: 100%;
+			height: 1000px;
+			padding: 0;
+			margin: 0;
+			overflow: hidden;
+		}
+		.cesiumContainer {
+			position: absolute;
+			top: 0;
+			height: 100%;
+			width: 50%;
+			margin: 0;
+			overflow: hidden;
+			padding: 0;
+			font-family: sans-serif;
+		}
+		.cesium-viewer-geocoderContainer,
+		.cesium-viewer-fullscreenContainer {
+			opacity: 0;
+			pointer-events: none;
+		}
+		#cesiumContainerLeft {
+			left: 0;
+		}
+ 		#cesiumContainerRight {
+			left: 50%;
+		}
+		#info {
+			position: absolute;
+			bottom:20px;
+			left:0;
+			right:0;
+			margin: 0 auto;
+			background: red;
+			width: 400px;
+			height: 2em;
+			padding-left: 40px;
+			display: none;
+		}
+		@media (min-width:750px) {
+			#warn {
+				position: absolute;
+				top:20px;
+				left:0;
+				right:0;
+				margin: 0 auto;
+				background: #dd6666;
+				width: 400px;
+				padding: 10px;
+				border-radius: 2px;
+				box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+			}
+		}
+		#fs {
+			position: absolute;
+			top:0px;
+			left:0;
+			background: rgba(255,255,255,0.7);
+			height: 100px;
+			width:100px;
+			z-index: 1000;
+			padding:10px;
+			display: none;
+		}
+
+    #home {
+      position: absolute;
+      top:10px;
+      left:10px;
+      background: rgba(255,255,255,0.7);
+      //height: 100px;
+      width:100px;
+      z-index: 1000;
+      padding:10px 20px;
+			border: 2px solid white;
+			background: transparent;
+			color: white;
+			border-radius: 2px;
+
+    }
+    .cesium-widget-credits {
+      opacity: 0;
+    }
+	  div:-webkit-full-screen {
+		  width: 100% !important;
+		}
+		div:-moz-full-screen {
+		  width: 100% !important;
+		}
+		div:-ms-fullscreen {
+		  width: 100% !important;
+		}
+		div:fullscreen {
+		  width: 100% !important;
+		}
+
+    </style>
+	<script src="VRdemo.html-assets/Cesium-1.20/Build/Cesium/Cesium.js"></script>
+</head>
+<body>
+
+	<div id="cesiumContainerLeft" class="cesiumContainer"></div>
+	<div id="cesiumContainerRight" class="cesiumContainer"></div>
+	<div id="warn">Designed to be viewed landscape on an IOS or Android device with accelerometer on a browser which supports DeviceOrientationEvent (like Chrome!)</div>
+  <div id="info" ></div>
+  <button id="fs">FS</button>
+	<button id="home">Your Location</button>
+
+
+  <script>
+		Cesium.BingMapsApi.defaultKey = 'AqXi6TPpBc3yLjdMIMZqZw5-n7PCrOZuOAvlCWalrYDnmP_h0inB1MNO9bPa4ib7'
+		var viewer;
+		// default Lac d'Annecy
+		var lat = 6.202130, lon = 45.836795, alt = 1000.0;
+
+		var offset = 0.001;
+
+		// Find the right method, call on correct element
+		function launchIntoFullscreen(element) {
+		  if(element.requestFullscreen) {
+		    element.requestFullscreen();
+		  } else if(element.mozRequestFullScreen) {
+		    element.mozRequestFullScreen();
+		  } else if(element.webkitRequestFullscreen) {
+		    element.webkitRequestFullscreen();
+		  } else if(element.msRequestFullscreen) {
+		    element.msRequestFullscreen();
+		  }
+		}
+
+		// Launch fullscreen for browsers that support it!
+		document.getElementById('fs').addEventListener('click', function(){
+			launchIntoFullscreen(document.getElementById("cesiumContainer")); // a
+		});
+
+		var cesiumContainerLeft = document.getElementById('cesiumContainerLeft');
+		var cesiumContainerRight = document.getElementById('cesiumContainerRight');
+		var infoContainer = document.getElementById('info');
+		var viewerOptions = {
+	  		//vrButton : true,
+		    timeline : false,
+		    animation : false,
+		    infoBox : false,
+		    sceneModePicker : false,
+		    geocoder : true,
+		    homeButton : false,
+		    navigationHelpButton : false,
+		    baseLayerPicker : false
+		}
+
+    var viewerLeft = new Cesium.Viewer('cesiumContainerLeft', viewerOptions);
+    var viewerRight = new Cesium.Viewer('cesiumContainerRight', viewerOptions);
+
+		var sceneLeft = viewerLeft.scene;
+		var canvasLeft = viewerLeft.canvas;
+		var sceneRight = viewerRight.scene;
+		var canvasRight = viewerRight.canvas;
+
+  	// Load terrain
+		var cesiumTerrainProviderMeshes = new Cesium.CesiumTerrainProvider({
+			url: 'https://assets.agi.com/stk-terrain/world',
+			requestWaterMask : true,
+			requestVertexNormals : true,
+		});
+
+		viewerLeft.terrainProvider = cesiumTerrainProviderMeshes;
+		viewerLeft.contextOptions = {
+			webgl: {
+				alpha: false
+			}
+		}
+    viewerRight.terrainProvider = cesiumTerrainProviderMeshes;
+		viewerRight.contextOptions = {
+    	webgl: {
+      	alpha: false
+      }
+    }
+
+		viewerLeft.dataSources.add(Cesium.KmlDataSource.load('2013-06-13_Planfait.kml'),{
+    	camera: viewerLeft.scene.camera,
+			canvas: viewerLeft.scene.canvas
+		});
+		viewerRight.dataSources.add(Cesium.KmlDataSource.load('2013-06-13_Planfait.kml'),{
+      camera: viewerRight.scene.camera,
+			canvas: viewerRight.scene.canvas
+		});
+
+		// set camera view to Lac d'Annecy defaults
+    setCameraView(0, 0, lat, lon, alt)
+
+  	// Use GPS sensor to get location (user prompt)
+		document.getElementById('home').addEventListener('click', function(){
+			if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(setCameraPosition);
+      }
+		});
+
+
+    // Phone sensors control camera view
+    if (window.DeviceOrientationEvent) {
+		//if((window.navigator.userAgent.indexOf('Android') > -1 && (/Chrome\/[.0-9]*/).test(window.navigator.userAgent)) || navigator.userAgent.match('CriOS')){
+    	window.addEventListener('deviceorientation', onDeviceOrientationChanged, false);
+    }
+
+    window.addEventListener('resize', onResize, false);
+    window.setTimeout(onResize, 60);
+
+    var onResize = function() {
+        onResizeScene(viewer.canvas, viewer.scene);
+    };
+
+    // Resize handler
+    var onResizeScene = function(canvas, scene) {
+        var width = cesiumContainerLeft.offsetWidth;
+        var height = cesiumContainerLeft.offsetHeight;
+
+        if (canvas.width === width && canvas.height === height) {
+            return;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        scene.camera.frustum.aspectRatio = width / height;
+    };
+
+
+
+		// ORIENTATION SENSOR
+		// http://www.w3.org/TR/orientation-event/
+		// x = beta [-180, 180] (pitch)
+		// y = gamma [-90, 90] (roll)
+		// z = alpha [0, 360] (yaw)
+
+		function onDeviceOrientationChanged(eventData) {
+		  window.scrollTo(0,1);
+
+	    var x = eventData.beta;
+	    var y = eventData.gamma; // -90/90 straight ahead. -0.1 down, 0.1 up
+	    var z = eventData.alpha;
+
+		  if(x == null) {
+				x = 0;
+				y = 90;
+				z = 180;
+			}
+
+      infoContainer.innerHTML = x + '<br> '+ y + '<br>' + z;
+
+      x = Cesium.Math.toRadians(x);
+      if (y < 0) {
+      	y = Cesium.Math.toRadians(-y - 90);
+      	z = Cesium.Math.toRadians(-z);
+      } else {
+        y = Cesium.Math.toRadians(90 - y);
+        z = Cesium.Math.toRadians(-180-z);
+      }
+
+      setCameraView(y, z, lat, lon, alt)
+		}
+
+		function setCameraView(y,z,lat, lon, alt) {
+			viewerLeft.camera.setView({
+			    destination : new Cesium.Cartesian3.fromDegrees(lat, lon, alt),
+			    orientation: {
+			        heading : z, // east, default value is 0.0 (north)
+			        pitch : y,    // default value (looking down)
+			        roll : 0.0                             // default value
+			    }
+			});
+			viewerRight.camera.setView({
+			    destination : new Cesium.Cartesian3.fromDegrees(lat + offset, lon, alt),
+			    orientation: {
+			        heading : z, // east, default value is 0.0 (north)
+			        pitch : y,    // default value (looking down)
+			        roll : 0.0    // default value
+			    }
+			});
+		}
+
+
+		function setCameraPosition(position) {
+      viewerLeft.camera.flyTo({
+				destination : Cesium.Cartesian3.fromDegrees(position.coords.longitude, position.coords.latitude, 100.0),
+				orientation : {
+			    heading : Cesium.Math.toRadians(0.0),
+			    pitch : Cesium.Math.toRadians(-20.0),
+			    roll : 0.0
+				}
+			});
+	    viewerRight.camera.flyTo({
+				destination : Cesium.Cartesian3.fromDegrees(position.coords.longitude, position.coords.latitude, 100.0),
+				orientation : {
+				  heading : Cesium.Math.toRadians(0.0),
+				  pitch : Cesium.Math.toRadians(-20.0),
+				  roll : 0.0
+				}
+			});
+
+    }
+
+    </script>
+
+</body>
+</html>

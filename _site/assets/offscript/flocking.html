@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Rummel Orthodontics</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link href="flocking.html-assets/style.css" rel="stylesheet">
+
+	</head>
+	<body>
+
+		<div id="container">
+			<img class="site-logo" src="flocking.html-assets/Rummel-logo-white.svg">
+			
+			<div class="sun"></div>
+			<div class="flare">
+				<div class="subflare subflare1"></div>
+				<div class="subflare subflare2"></div>
+				<div class="subflare subflare3"></div>
+			</div>
+		</div>
+		<div class="menu">
+			<button class="menu-button"><span>MENU</span></button>
+			<nav>
+				<ul>
+					<li><a href="#">About Us</a></li>
+					<li><a href="#">New Patients</a></li>
+					<li><a href="#">Current Patients</a></li>			
+					<li><a href="#">Contact Us</a></li>
+				</ul>
+			</nav>
+			<a href="#" class="schedule-appt">
+				<img src="flocking.html-assets/schedule-icon.svg"/>
+			</a>											
+		</div>
+		<div id="info"></div>
+
+		<script src="threejs/three.min.js"></script>
+
+		<script src="//threejs.org/examples/js/renderers/Projector.js"></script>
+		<script src="//threejs.org/examples/js/renderers/CanvasRenderer.js"></script>
+		<script src="flocking.html-assets/js/Bird.js"></script>
+		<script src="flocking.html-assets/js/flocking.js"></script>
+		<script>
+			(function(){
+				
+				document.querySelector('.menu-button').addEventListener('click', function(){
+					document.body.classList.toggle('menu-open')
+				})
+
+			})()
+		</script>
+	</body>
+</html>
